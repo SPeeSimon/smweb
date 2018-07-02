@@ -1,0 +1,32 @@
+nav {
+}
+
+footer {
+  background-color: #555;
+  color: white;
+  padding: 15px;
+}
+
+.statscounter {
+  font-weight: bold;
+  font-size: 110%;
+}
+
+ol {
+  padding-left: 0;
+}
+
+.input-group:hover {
+  box-shadow: 0 0 6px rgba(35, 173, 278, 1);
+}
+
+.input-group {
+  transition: all 200ms ease-out;
+  margin-bottom: 7px;
+  padding-left: 7px;
+}
+
+.fg-model-thumb {
+  width: 320px;
+  height: 240px;
+}

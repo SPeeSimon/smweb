@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" type="text/css" />
+  <link rel="stylesheet" href="scenemodels.css" type="text/css" />
+  <script type="text/javascript" async="async" data-main="main" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js"></script>
+  <title>FlightGear Scenery - Home</title>
+
+</script>
+</head>
+
+<body>
+ <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#myNavbar">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" title="FlightGear SceneModels Database" style="padding: 0;"><img style="width:100%; height: 100%;" src="/FlightGear_logo.svg" /></a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+        <li data-bind="css: { active: isActiveLeft('home') }"><a href="#home">Home</a></li>
+        <li data-bind="css: { active: isActiveLeft('contribute') }"><a href="#contribute">Contribute</a></li>
+        <li data-bind="css: { active: isActiveLeft('models') }"><a href="#models">Models</a></li>
+        <li data-bind="css: { active: isActiveLeft('objects') }"><a href="#objects">Objects</a></li>
+        <li data-bind="css: { active: isActiveLeft('authors') }"><a href="#authors">Authors</a></li>
+      </ul>
+
+      <form class="navbar-form navbar-right">
+        <div class="form-group input-group">
+          <input class="form-control" type="text" placeholder="Search (not available yet)" />
+        </div>
+      </form>
+
+      <!--ul class="nav navbar-nav navbar-right">
+        <li><a href="#"></a><span class="glyphicon glyphicon-user">My Account</span></li>
+      </ul-->
+    </div>
+  </div>
+ </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-9 well" data-bind="component: { name: leftWidget, params: leftWidgetParams }"></div>
+      <div class="col-sm-3 well" data-bind="component: { name: rightWidget, params: rightWidgetParams }"></div>
+    </div>
+  </div>
+  <footer class="container-fluid text-center">
+    <small class="text-muted">Models &copy; by their respective author. This website &copy; Torsten Dreyer 2017. 
+     If in doubt, ask at <a href="https://sourceforge.net/p/flightgear/mailman/flightgear-devel/">the flightgear-devel mailing list.</a></small>
+  </footer>
+</body>
+</html>
+

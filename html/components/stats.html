@@ -1,0 +1,43 @@
+  <h3>Statistics</h3>
+
+  <div class="well">
+    <ul class="list-group">
+      <li class="list-group-item"><span class="badge" data-bind="text: numObjects"></span><a href="#objects">Objects</a></li>
+      <li class="list-group-item"><span class="badge" data-bind="text: numModels"></span><a href="#models">Models</a></li>
+      <li class="list-group-item"><span class="badge" data-bind="text: numAuthors"></span><a href="#authors">Authors</a></li>
+      <li class="list-group-item"><span class="badge" data-bind="text: numPending"></span>Pending</li>
+    </ul>
+  </div>
+
+  <div class="well">
+    <h4>Top Authors</h4>
+    <h5>all time</h5>
+    <ol class="list-group" data-bind="foreach: topAuthor">
+      <li class="list-group-item"><a data-bind=
+      "text: author,attr: { href: '#author/' + author_id }"></a>
+      <span class="badge" data-bind="text: count"></span></li>
+    </ol>
+
+    <h5>last 90 days</h5>
+
+    <ol class="list-group" data-bind="foreach: topAuthor90">
+      <li class="list-group-item"><a data-bind=
+      "text: author,attr: { href: '#author/' + author_id }"></a>
+      <span class="badge" data-bind="text: count"></span></li>
+    </ol>
+  </div>
+
+  <div class="well">
+    <h4>Most active Authors</h4>
+    <div id="stats-mba" style="height: 200px;"></div>
+  </div>
+
+  <div class="well">
+    <h4>Most populated Countries</h4>
+    <div id="charts-obc">Loading...(not yet)</div>
+  </div>
+
+  <div class="well">
+    <h4>History</h4>
+    <div id="charts-obc">Loading...(not yet)</div>
+  </div>
