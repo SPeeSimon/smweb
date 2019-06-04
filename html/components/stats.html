@@ -1,16 +1,18 @@
-  <h3>Statistics</h3>
-
-  <div class="well">
-    <ul class="list-group">
-      <li class="list-group-item"><span class="badge" data-bind="text: numObjects"></span><a href="#objects">Objects</a></li>
-      <li class="list-group-item"><span class="badge" data-bind="text: numModels"></span><a href="#models">Models</a></li>
-      <li class="list-group-item"><span class="badge" data-bind="text: numAuthors"></span><a href="#authors">Authors</a></li>
-      <li class="list-group-item"><span class="badge" data-bind="text: numPending"></span>Pending</li>
-    </ul>
+<div class="panel-group">
+  <div class="panel panel-default">
+    <div class="panel-heading"><span>Totals<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadStats" title="Refresh"></span></div>
+    <div class="panel-body">
+      <ul class="list-group">
+        <li class="list-group-item"><span class="badge" data-bind="text: numObjects"></span><a href="#objects">Objects</a></li>
+        <li class="list-group-item"><span class="badge" data-bind="text: numModels"></span><a href="#models">Models</a></li>
+        <li class="list-group-item"><span class="badge" data-bind="text: numAuthors"></span><a href="#authors">Authors</a></li>
+        <li class="list-group-item"><span class="badge" data-bind="text: numPending"></span>Pending</li>
+      </ul>
+    </div>
   </div>
-
-  <div class="well">
-    <h4>Top Authors</h4>
+  <div class="panel panel-default">
+    <div class="panel-heading"><span>Top Authors<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadTopAuthors" title="Refresh"></span></div>
+    <div class="panel-body">
     <h5>all time</h5>
     <ol class="list-group" data-bind="foreach: topAuthor">
       <li class="list-group-item"><a data-bind=
@@ -19,25 +21,30 @@
     </ol>
 
     <h5>last 90 days</h5>
-
     <ol class="list-group" data-bind="foreach: topAuthor90">
       <li class="list-group-item"><a data-bind=
       "text: author,attr: { href: '#author/' + author_id }"></a>
       <span class="badge" data-bind="text: count"></span></li>
     </ol>
+    </div>
   </div>
+  <div class="panel panel-default">
+    <div class="panel-heading"><span>Most active Authors<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadAuthors" title="Refresh"></span></div>
+    <div class="panel-body">
+      <div id="stats-mba" style="height: 200px;"></div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">Most populated Countries</div>
+    <div class="panel-body">
+      <div id="charts-obc">Loading...(not yet)</div>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading">History</div>
+    <div class="panel-body">
+      <div id="charts-obc">Loading...(not yet)</div>
+    </div>
+  </div>
+</div>
 
-  <div class="well">
-    <h4>Most active Authors</h4>
-    <div id="stats-mba" style="height: 200px;"></div>
-  </div>
-
-  <div class="well">
-    <h4>Most populated Countries</h4>
-    <div id="charts-obc">Loading...(not yet)</div>
-  </div>
-
-  <div class="well">
-    <h4>History</h4>
-    <div id="charts-obc">Loading...(not yet)</div>
-  </div>

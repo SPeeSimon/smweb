@@ -16,15 +16,8 @@ define([
     self.reload()
   }
 
-  ViewModel.prototype.reload = function() {
+  ViewModel.prototype.reloadStats = function() {
     var self = this
-
-    $.getJSON( self.params.baseUrl + "scenemodels/stats/models/byauthor/3/", function( data ) {
-      self.topAuthor(data.modelsbyauthor)
-    })
-    $.getJSON( self.params.baseUrl + "scenemodels/stats/models/byauthor/3/0/1", function( data ) {
-      self.topAuthor90(data.modelsbyauthor)
-    })
     $.getJSON( self.params.baseUrl + "scenemodels/stats/", function( data ) {
       data = data || {}
       stats = data.stats || {}
@@ -33,7 +26,20 @@ define([
       self.numAuthors( stats.authors || 0)
       self.numPending( stats.pending || 0)
     });
+  }
 
+  ViewModel.prototype.reloadTopAuthors = function() {
+    var self = this
+    $.getJSON( self.params.baseUrl + "scenemodels/stats/models/byauthor/3/", function( data ) {
+      self.topAuthor(data.modelsbyauthor)
+    })
+    $.getJSON( self.params.baseUrl + "scenemodels/stats/models/byauthor/3/0/1", function( data ) {
+      self.topAuthor90(data.modelsbyauthor)
+    })
+  }
+
+  ViewModel.prototype.reloadAuthors = function() {
+    var self = this
     $.getJSON( self.params.baseUrl + "scenemodels/stats/models/byauthor/10/", function( mba ) {
       var data = []
       mba.modelsbyauthor.forEach(function(m){
@@ -61,6 +67,14 @@ define([
         else $("#stats-mba").attr("title","")
       })
     })
+  }
+
+  ViewModel.prototype.reload = function() {
+    var self = this
+
+    self.reloadStats()
+    self.reloadTopAuthors()
+    self.reloadAuthors()
   }
 
 //    ViewModel.prototype.dispose = function() {
