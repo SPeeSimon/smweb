@@ -10,6 +10,7 @@ require.config({
       'flot-time': 'https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min',
       'flot-pie': 'https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.min',
       'flot': 'https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min',
+
     },
     map: {
     },
@@ -17,8 +18,9 @@ require.config({
     shim : {
         bootstrap : { "deps" :['jquery'] },
         'jquery-ui' : { "deps" :['jquery'] },
-        'flot-pie' : { "deps" :['jquery', 'flot'] },
-        'flot-time' : { "deps" :['jquery', 'flot'] },
+        'flot' : { "deps" :['jquery'] },
+        'flot-pie' : { "deps" :['flot'] },
+        'flot-time' : { "deps" :['flot'] },
     },
 })
 

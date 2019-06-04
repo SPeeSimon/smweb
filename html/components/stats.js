@@ -1,5 +1,5 @@
 define([
-  'knockout', 'text!./stats.html', 'jquery','flot-pie', 'flot-time'
+  'knockout', 'text!./stats.html', 'jquery', 'flot-time', 'flot-pie'
 ], function(ko, htmlString, $ ) {
 
   function ViewModel( params ) {
@@ -12,6 +12,15 @@ define([
     self.numPending = ko.observable(0)
     self.topAuthor = ko.observable([])
     self.topAuthor90 = ko.observable([])
+
+    $("<div id='hst-tooltip'></div>").css({
+      position: "absolute",
+      display: "none",
+      border: "1px solid #fdd",
+      padding: "2px",
+      "background-color": "#fee",
+      opacity: 0.80
+    }).appendTo("body");
 
     self.reload()
   }
@@ -96,13 +105,13 @@ define([
                 position: "left",
                 tickFormatter: function (v, axis) {
                   return v.toFixed(0)/1e3 + "k";
-		},
+    },
               },{
                 position: "right",
                 alignTicksWithAxis: 1,
                 tickFormatter: function (v, axis) {
                   return v.toFixed(0)/1e6 + "M";
-		},
+    },
             }],
             xaxis: {
               mode: "time",
@@ -112,6 +121,25 @@ define([
               show: true,
               position: "nw",
             },
+            grid: {
+              hoverable: true,
+              // clickable: true,
+            },
+      })
+      $("#charts-hst").bind("plothover", function (event, pos, item) {
+        if (item) {
+          var x = item.datapoint[0].toFixed(2),
+              y = item.datapoint[1].toFixed(2);
+
+          $("#hst-tooltip").html(new Date(parseInt(x)).toLocaleDateString({ year: '2-digit', month: '2-digit', day: '2-digit' }) + ": "
+                            + Number(y).toFixed(0) + " "  +item.series.label)
+            .css({top: item.pageY+5, left: item.pageX+5})
+            .fadeIn(200);
+        }
+      });
+
+      $("#charts-hst").mouseleave( function(event,pos, item) {
+        $("#hst-tooltip").hide();
       })
     })
   }
