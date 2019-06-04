@@ -7,6 +7,7 @@ require.config({
       sammy: 'https://cdnjs.cloudflare.com/ajax/libs/sammy.js/0.7.6/sammy.min',
       text: 'https://cdnjs.cloudflare.com/ajax/libs/require-text/2.0.12/text.min',
       bootstrap: 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min',
+      'flot-time': 'https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.time.min',
       'flot-pie': 'https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.pie.min',
       'flot': 'https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.min',
     },
@@ -17,6 +18,7 @@ require.config({
         bootstrap : { "deps" :['jquery'] },
         'jquery-ui' : { "deps" :['jquery'] },
         'flot-pie' : { "deps" :['jquery', 'flot'] },
+        'flot-time' : { "deps" :['jquery', 'flot'] },
     },
 })
 

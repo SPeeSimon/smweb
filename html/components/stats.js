@@ -1,5 +1,5 @@
 define([
-  'knockout', 'text!./stats.html', 'jquery','flot-pie'
+  'knockout', 'text!./stats.html', 'jquery','flot-pie', 'flot-time'
 ], function(ko, htmlString, $ ) {
 
   function ViewModel( params ) {
@@ -51,7 +51,7 @@ define([
 
       $.plot($("#stats-mba"), data, {
         series: {
-          pie: { 
+          pie: {
             show: true,
           }
         },
@@ -69,12 +69,60 @@ define([
     })
   }
 
+  ViewModel.prototype.reloadHistory = function() {
+    var self = this
+    $.getJSON( self.params.baseUrl + "scenemodels/stats/all", function( data ) {
+      if( !(data&&data.statistics) ) return
+      var models = []
+      var objects = []
+      data.statistics.forEach(function(e){
+        var t = new Date(e.date).getTime()
+        models.push([t,e.models])
+        objects.push([t,e.objects])
+      })
+
+      $.plot($("#charts-hst"), [{
+            data: models,
+            label: "Models",
+            color: "red",
+            yaxis: 1,
+          },{
+            data: objects,
+            label: "Objects",
+            color: "blue",
+            yaxis: 2,
+          }], {
+            yaxes: [{
+                position: "left",
+                tickFormatter: function (v, axis) {
+                  return v.toFixed(0)/1e3 + "k";
+		},
+              },{
+                position: "right",
+                alignTicksWithAxis: 1,
+                tickFormatter: function (v, axis) {
+                  return v.toFixed(0)/1e6 + "M";
+		},
+            }],
+            xaxis: {
+              mode: "time",
+              timeBase: "milliseconds",
+            },
+            legend: {
+              show: true,
+              position: "nw",
+            },
+      })
+    })
+  }
+
   ViewModel.prototype.reload = function() {
     var self = this
 
     self.reloadStats()
     self.reloadTopAuthors()
     self.reloadAuthors()
+    self.reloadHistory()
   }
 
 //    ViewModel.prototype.dispose = function() {
