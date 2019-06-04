@@ -48,8 +48,7 @@ define([
           latitude: f.geometry.coordinates[1],
         })
       })
-console.log(data)
-       self.objects(objs)
+      self.objects(objs)
     })
     .catch(function(err){
       //TODO: notify user
