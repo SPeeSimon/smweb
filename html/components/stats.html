@@ -6,8 +6,14 @@
         <li class="list-group-item"><span class="badge" data-bind="text: numObjects"></span><a href="#objects">Objects</a></li>
         <li class="list-group-item"><span class="badge" data-bind="text: numModels"></span><a href="#models">Models</a></li>
         <li class="list-group-item"><span class="badge" data-bind="text: numAuthors"></span><a href="#authors">Authors</a></li>
-        <li class="list-group-item"><span class="badge" data-bind="text: numPending"></span>Pending</li>
+        <li class="list-group-item"><span class="badge" data-bind="text: numPending"></span><span class="badge" data-bind="text: numElev"></span>Pending/Accepted</li>
       </ul>
+    </div>
+  </div>
+  <div class="panel panel-default">
+    <div class="panel-heading"><span>History<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadHistory" title="Refresh"></span></div>
+    <div class="panel-body">
+      <div id="charts-hst" style="height: 200px"></div>
     </div>
   </div>
   <div class="panel panel-default">
@@ -38,12 +44,6 @@
     <div class="panel-heading">Most populated Countries</div>
     <div class="panel-body">
       <div id="charts-obc">Loading...(not yet)</div>
-    </div>
-  </div>
-  <div class="panel panel-default">
-    <div class="panel-heading"><span>History<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadHistory" title="Refresh"></span></div>
-    <div class="panel-body">
-      <div id="charts-hst" style="height: 200px"></div>
     </div>
   </div>
 </div>

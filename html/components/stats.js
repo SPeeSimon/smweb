@@ -10,6 +10,7 @@ define([
     self.numObjects = ko.observable(0)
     self.numAuthors = ko.observable(0)
     self.numPending = ko.observable(0)
+    self.numElev = ko.observable(0)
     self.topAuthor = ko.observable([])
     self.topAuthor90 = ko.observable([])
 
@@ -34,6 +35,7 @@ define([
       self.numObjects( stats.objects || 0)
       self.numAuthors( stats.authors || 0)
       self.numPending( stats.pending || 0)
+      self.numElev( stats.elev || 0)
     });
   }
 
