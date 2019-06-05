@@ -6,7 +6,10 @@
         <li class="list-group-item"><span class="badge" data-bind="text: numObjects"></span><a href="#objects">Objects</a></li>
         <li class="list-group-item"><span class="badge" data-bind="text: numModels"></span><a href="#models">Models</a></li>
         <li class="list-group-item"><span class="badge" data-bind="text: numAuthors"></span><a href="#authors">Authors</a></li>
-        <li class="list-group-item"><span class="badge" data-bind="text: numPending"></span><span class="badge" data-bind="text: numElev"></span>Pending/Accepted</li>
+        <li class="list-group-item">
+          <span class="badge" title="Accepted but not yet exported objects" data-bind="text: numElev"></span>
+          <span class="badge" title="Pending requests not yet validated" data-bind="text: numPending"></span>Pending/Accepted
+        </li>
       </ul>
     </div>
   </div>
