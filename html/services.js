@@ -7,6 +7,7 @@ define([
       $.ajax(url, {
         data : data ? JSON.stringify(data) : null,
         contentType : 'application/json',
+headers: {"Content-Type": "application/json"},
         type : type,
         success : function(data) {
           resolve(data);
@@ -109,13 +110,23 @@ define([
     return AjaxPromise( 'GET', url )
   }
 
+  function TerrasyncService( baseUrl ) {
+    this.baseUrl = baseUrl;
+  }
+
+  TerrasyncService.prototype.getStatus = function() {
+    var url = this.baseUrl + "/status"
+    return AjaxPromise( 'GET', url )
+  }
+
 
   function Services( baseUrl ) {
-    this.baseUrl = baseUrl
-    this.Models = new ModelService( baseUrl )
-    this.Objects = new ObjectService( baseUrl )
-    this.Authors = new AuthorService( baseUrl )
-    this.Modelgroups = new ModelgroupService( baseUrl )
+    this.baseUrl = baseUrl;
+    this.Models = new ModelService( baseUrl );
+    this.Objects = new ObjectService( baseUrl );
+    this.Authors = new AuthorService( baseUrl );
+    this.Modelgroups = new ModelgroupService( baseUrl );
+    this.Terrasync = new TerrasyncService( "https://api.flightgear.org/terrasync" );
   }
 
 

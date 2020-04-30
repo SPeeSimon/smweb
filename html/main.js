@@ -41,7 +41,8 @@ require([
     { name: 'models',  args: 0 },
     { name: 'object',  args: 1 },
     { name: 'objects', args: 0 },
-    { name: 'stats',   args: 0 }
+    { name: 'stats',   args: 0 },
+    { name: 'tsstatus',args: 0 }
   ]
 
   var components = [
