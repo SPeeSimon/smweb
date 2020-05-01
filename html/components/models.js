@@ -13,6 +13,8 @@ define([
     self.length = ko.observable(20)
     self.models = ko.observableArray([])
 
+    self.modelsLoading = ko.observable(false);
+    self.modelGroupsLoading = ko.observable(false);
 
     self.reload()
 
@@ -40,9 +42,11 @@ define([
 
   ViewModel.prototype.reloadModels = function( mg, start, length ) {
     var self = this
+    self.modelsLoading(true);
 
     ko.utils.scenemodels.Models.getByMg( mg, start, length )
     .then(function(data){
+      self.modelsLoading(false);
       if( !(data  && Array.isArray(data)) ) return;
       self.models( data )
     })
@@ -52,9 +56,11 @@ define([
   }
   ViewModel.prototype.reload = function() {
     var self = this
+    self.modelGroupsLoading(true);
 
     ko.utils.scenemodels.Modelgroups.getAll()
     .then(function(data){
+      self.modelGroupsLoading(false);
       if( !(data  && Array.isArray(data)) ) return;
       self.modelgroups( data )
       if( data.length ) {
