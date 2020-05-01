@@ -76,7 +76,7 @@ require([
     self.rightWidget = ko.observable('stats')
     self.rightWidgetParams = { baseUrl: baseUrl }
 
-    setInterval( function() { self.checkClientVersion()}, 1000 );
+    setInterval( function() { self.checkClientVersion()}, 3600*1000 );
   }
 
   ViewModel.prototype.checkClientVersion = function() {
