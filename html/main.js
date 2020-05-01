@@ -28,9 +28,12 @@ require([
   'knockout',
   'sammy',
   'services.js',
+  'text!./version.json',
   'bootstrap',
   'jquery-ui',
-], function(ko,sammy,services) {
+], function(ko,sammy,services,version) {
+
+  var clientVersion = JSON.parse(version).client;
 
   var toplinks = [
     { name: 'author',  args: 1 },
@@ -65,12 +68,28 @@ require([
   function ViewModel(baseUrl) {
     var self = this
 
+    self.updateAvailable = ko.observable(false);
+
     self.leftWidget = ko.observable('home')
     self.leftWidgetParams = { baseUrl: baseUrl, id: ko.observable() }
 
     self.rightWidget = ko.observable('stats')
     self.rightWidgetParams = { baseUrl: baseUrl }
+
+    setInterval( function() { self.checkClientVersion()}, 1000 );
   }
+
+  ViewModel.prototype.checkClientVersion = function() {
+    var self = this;
+    ko.utils.scenemodels.Version.getClientVersion()
+    .then(function(data) {
+      self.updateAvailable(clientVersion !== data.client);
+    })
+    .catch(function(err) {
+      console.log("can't get client version", err);
+    });
+  }
+
   ViewModel.prototype.isActiveLeft = function(a,b) {
     return a === this.leftWidget()
   }

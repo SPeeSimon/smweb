@@ -1,5 +1,5 @@
 <div class="panel-group">
-  <div class="panel panel-default">
+  <div class="panel panel-default" data-bind="css: {loading: statsLoading}">
     <div class="panel-heading"><span>Totals<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadStats" title="Refresh"></span></div>
     <div class="panel-body">
       <ul class="list-group">
@@ -13,13 +13,13 @@
       </ul>
     </div>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default" data-bind="css: {loading: historyLoading}">
     <div class="panel-heading"><span>History<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadHistory" title="Refresh"></span></div>
     <div class="panel-body">
       <div id="charts-hst" style="height: 200px"></div>
     </div>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default" data-bind="css: {loading: authorsLoading}">
     <div class="panel-heading"><span>Top Authors<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadTopAuthors" title="Refresh"></span></div>
     <div class="panel-body">
     <h5>all time</h5>
@@ -37,7 +37,7 @@
     </ol>
     </div>
   </div>
-  <div class="panel panel-default">
+  <div class="panel panel-default" data-bind="css: {loading: authorsLoading}">
     <div class="panel-heading"><span>Most active Authors<span><span class="btn pull-right fa fa-sync" data-bind="click: reloadAuthors" title="Refresh"></span></div>
     <div class="panel-body">
       <div id="stats-mba" style="height: 200px;"></div>

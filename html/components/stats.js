@@ -13,6 +13,9 @@ define([
     self.numElev = ko.observable(0)
     self.topAuthor = ko.observable([])
     self.topAuthor90 = ko.observable([])
+    self.statsLoading = ko.observable(false);
+    self.historyLoading = ko.observable(false);
+    self.authorsLoading = ko.observable(false);
 
     $("<div id='hst-tooltip'></div>").css({
       position: "absolute",
@@ -28,7 +31,9 @@ define([
 
   ViewModel.prototype.reloadStats = function() {
     var self = this
+    self.statsLoading(true);
     $.getJSON( self.params.baseUrl + "scenemodels/stats/", function( data ) {
+      self.statsLoading(false);
       data = data || {}
       stats = data.stats || {}
       self.numModels( stats.models || 0)
@@ -50,8 +55,10 @@ define([
   }
 
   ViewModel.prototype.reloadAuthors = function() {
-    var self = this
+    var self = this;
+    self.authorsLoading(true);
     $.getJSON( self.params.baseUrl + "scenemodels/stats/models/byauthor/10/", function( mba ) {
+      self.authorsLoading(false);
       var data = []
       mba.modelsbyauthor.forEach(function(m){
         data.push({
@@ -82,7 +89,9 @@ define([
 
   ViewModel.prototype.reloadHistory = function() {
     var self = this
+    self.historyLoading(true);
     $.getJSON( self.params.baseUrl + "scenemodels/stats/all", function( data ) {
+      self.historyLoading(false);
       if( !(data&&data.statistics) ) return
       var models = []
       var objects = []

@@ -44,9 +44,12 @@
         </div>
       </form>
 
-      <!--ul class="nav navbar-nav navbar-right">
-        <li><a href="#"></a><span class="glyphicon glyphicon-user">My Account</span></li>
-      </ul-->
+      <ul class="nav navbar-nav navbar-right">
+        <li title="Upate available, please reload this page" data-bind="visible: updateAvailable">
+          <a href="javascript:location.reload(true);" alt="Update available, please reload this page"><span class="glyphicon glyphicon-warning-sign"></span></a>
+        </li>
+        <li><a href="#"><span class="glyphicon glyphicon-user"></span></a></li>
+      </ul>
     </div>
   </div>
  </nav>

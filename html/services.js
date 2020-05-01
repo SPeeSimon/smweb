@@ -119,6 +119,13 @@ headers: {"Content-Type": "application/json"},
     return AjaxPromise( 'GET', url )
   }
 
+  function VersionService() {
+  }
+
+  VersionService.prototype.getClientVersion = function() {
+    return AjaxPromise( 'GET', '/version.json' );
+  }
+
 
   function Services( baseUrl ) {
     this.baseUrl = baseUrl;
@@ -127,6 +134,7 @@ headers: {"Content-Type": "application/json"},
     this.Authors = new AuthorService( baseUrl );
     this.Modelgroups = new ModelgroupService( baseUrl );
     this.Terrasync = new TerrasyncService( "https://api.flightgear.org/terrasync" );
+    this.Version = new VersionService();
   }
 
 
