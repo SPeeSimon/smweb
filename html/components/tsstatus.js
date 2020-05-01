@@ -9,11 +9,13 @@ define([
 
     self.data = ko.observableArray([]);
     self.dirs = ko.observableArray([]);
+    self.loading = ko.observable(false);
     self.reload()
   }
 
   ViewModel.prototype.reload = function() {
     var self = this
+    self.loading(true);
 
     function prepareHashes( data ) {
       const dirs = [];
@@ -29,6 +31,7 @@ define([
 
     ko.utils.scenemodels.Terrasync.getStatus()
     .then(function(data){
+      self.loading(false);
       if( !(data && Array.isArray(data)) ) return;
        data.sort((a,b)=> {return a.url.localeCompare(b.url);});
        self.dirs(prepareHashes(data));
