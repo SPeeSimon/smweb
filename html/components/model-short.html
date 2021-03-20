@@ -1,0 +1,16 @@
+<div class="panel panel-default" style="max-width: 320px; display: block;">
+  <div class="panel-heading">
+    <a data-bind=
+    "text: name,attr: { href: '#model/' + id }"></a><span>&nbsp;(</span><a data-bind="text: author,attr: { href: '#author/' + authorId }"></a><span>)</span>
+  </div>
+
+  <div class="panel-body">
+    <a data-bind= "attr: { href: '#model/' + id, alt: name }">
+      <img class="img-responsive img-rounded fg-model-thumb" data-bind="attr: { src: thumbUrl, alt: name, title: name }"/></a>
+  </div>
+
+  <div class="panel-footer">
+    <div data-bind="text: notes"></div>
+  </div>
+</div>
+

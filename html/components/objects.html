@@ -1,0 +1,46 @@
+<table class="table table-striped">
+  <caption><span class="btn fa fa-sync pull-right" data-bind="click: reload" title="Refresh"></span></caption>
+  <thead class="">
+    <tr>
+      <th>ID</th>
+      <th>Description</th>
+      <th>Model</th>
+      <th>Country</th>
+      <th>Longitude</th>
+      <th>Latitude</th>
+      <th>Elevation</th>
+      <th>Offset</th>
+      <th>Heading</th>
+      <th>Map</th>
+      
+    </tr>
+  </thead>
+  <tbody class="table-striped" data-bind="foreach: objects">
+    <tr>
+      <td data-bind="text: id"></td>
+      <td data-bind="text: title"></td>
+      <td><a data-bind="text: modelName, attr: { href: '#model/' + modelId }"></a></td>
+      <td data-bind="text: country"></td>
+      <td data-bind="text: longitude"></td>
+      <td data-bind="text: latitude"></td>
+      <td data-bind="text: elevation"></td>
+      <td data-bind="text: elevOffset"></td>
+      <td data-bind="text: heading"></td>
+      <td><a data-bind="attr:{href:'https://scenery.flightgear.org/map?z=15&lat='+latitude+'&lon='+longitude }" target="_blank" title="show on map" alt="show on map"><span class="glyphicon glyphicon-map-marker"></span></a></td>
+    </tr>
+  </tbody>
+</table>
+<nav aria-label="Page navigation">
+  <ul class="pagination">
+    <li>
+      <a href="#" aria-label="Previous" data-bind="click: prev" alt="Previous Page" title="Previous Page">
+        <span aria-hidden="true">&laquo;</span>
+      </a>
+    </li>
+    <li>
+      <a href="#" aria-label="Next" data-bind="click: next" alt="Next Page" title="Next Page">
+        <span aria-hidden="true">&raquo;</span>
+      </a>
+    </li>
+  </ul>
+</nav>
