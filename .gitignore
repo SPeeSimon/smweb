@@ -1,2 +1,5 @@
 *.swp
 docker-compose.yaml
+frontend/public/tsstatus.json
+frontend/public/**/*.json
+frontend/public/scenemodels/**/*.json
