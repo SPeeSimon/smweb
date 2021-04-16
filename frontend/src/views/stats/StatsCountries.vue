@@ -1,7 +1,7 @@
 <template>
-  <div class="panel panel-default">
-    <div class="panel-heading">Most populated Countries</div>
-    <div class="panel-body">
+  <div class="card card-default">
+    <div class="card-header">Most populated Countries</div>
+    <div class="card-body">
       <div id="charts-obc">Loading...(not yet)</div>
     </div>
   </div>

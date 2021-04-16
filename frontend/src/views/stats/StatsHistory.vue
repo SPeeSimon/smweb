@@ -1,7 +1,7 @@
 <template>
-  <div class="panel panel-default" :class="{ loading: historyLoading }">
-    <div class="panel-heading"><span>History</span><reload-button @reload="reload" /></div>
-    <div class="panel-body">
+  <div class="card card-default" :class="{ loading: historyLoading }">
+    <div class="card-header"><span>History</span><reload-button @reload="reload" /></div>
+    <div class="card-body">
       <canvas ref="statsHst" id="stats-hst" width="200" height="200"></canvas>
     </div>
   </div>

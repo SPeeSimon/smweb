@@ -1,12 +1,20 @@
 <template>
   <div id="page-home">
-    <div class="panel panel-default">
-      <div class="panel-body">
-        <h1>Welcome to the <a href="http://www.flightgear.org">FlightGear</a> <span>scenery website!</span></h1>
-        <p>This is the central point for maintaining FlightGear scenery models and
-        their positions. All data on this site (and the site's source code itself) is
-        available under the GNU General Public License 2. Everybody is welcome to
-        contribute.</p>
+    <div class="px-4 py-5 my-5 text-center">
+      <img class="d-block mx-auto mb-4" src="/FlightGear_logo.svg" alt="" width="72" height="57" />
+      <h1 class="display-5 fw-bold">Welcome to the FlightGear scenery website!</h1>
+      <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+          This is the central point for maintaining FlightGear scenery models and their positions. Everybody is welcome to contribute.
+        </p>
+        <p class="lead mb-4 fs-6">
+          All data on this site (and the site's source code itself) is available under the GNU General Public License 2.
+        </p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+          <a class="btn btn-outline-secondary btn-lg px-4" href="http://www.flightgear.org" target="_blank"
+            >Go to the FlightGear website</a
+          >
+        </div>
         <!--
         <div class="text-center alert alert-danger alert-dismissible" role="alert">
           <button type="button" title="Got it!" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -39,10 +47,10 @@ import ReloadButton from "../components/ReloadButton.vue";
 import { ModelService } from "../services/ModelService";
 import ModelShort from "./model/model-short.vue";
 
-
 @Component({
   components: {
-    ReloadButton, ModelShort
+    ReloadButton,
+    ModelShort,
   },
 })
 export default class Home extends Vue {
@@ -55,12 +63,15 @@ export default class Home extends Vue {
 
   public reload() {
     this.modelsLoading = true;
-    new ModelService('').getLatest(20).then(data => {
-      if (!(data && Array.isArray(data))) return;
-      this.models = data;
-    }).finally(() =>{
-      this.modelsLoading = false;
-    })
+    new ModelService("")
+      .getLatest(20)
+      .then((data) => {
+        if (!(data && Array.isArray(data))) return;
+        this.models = data;
+      })
+      .finally(() => {
+        this.modelsLoading = false;
+      });
   }
 }
 </script>

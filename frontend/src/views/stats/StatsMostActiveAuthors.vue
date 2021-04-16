@@ -1,7 +1,7 @@
 <template>
-  <div class="panel panel-default" :class="{ loading: authorsLoading }">
-    <div class="panel-heading"><span>Most active Authors</span><reload-button @reload="reloadAuthors" /></div>
-    <div class="panel-body">
+  <div class="card card-default" :class="{ loading: authorsLoading }">
+    <div class="card-header"><span>Most active Authors</span><reload-button @reload="reloadAuthors" /></div>
+    <div class="card-body">
       <canvas ref="statsMba" id="stats-mba" width="200" height="200"></canvas>
     </div>
   </div>

@@ -76,8 +76,9 @@ export default class extends Vue {
     const dirs = new Set<TerrasyncContainer>();
     data
       .filter((di) => di.dirindex && di.dirindex.d)
+      .map(di => di.dirindex.d)
       .forEach((di) => {
-        for (const d in di.dirindex.d) {
+        for (const d in di) {
           dirs.add(d);
         }
       });

@@ -1,50 +1,50 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-inverse">
-      <div class="container-fluid">
-        <div class="navbar-header">
-          <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#myNavbar">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <router-link to="/" class="navbar-brand" title="FlightGear SceneModels Database" style="padding: 0">
-            <img style="width: 100%; height: 100%" src="./assets/FlightGear_logo.svg"/>
-          </router-link>
-        </div>
 
-        <div class="collapse navbar-collapse" id="myNavbar">
-          <ul class="nav navbar-nav">
-            <li><router-link to="/">Home</router-link></li>
-            <li><router-link to="/contribute">Contribute</router-link></li>
-            <li><router-link to="/models">Models</router-link></li>
-            <li><router-link to="/objects">Objects</router-link></li>
-            <li><router-link to="/authors">Authors</router-link></li>
-            <li><router-link to="/stats">Stats</router-link></li>
-            <li><router-link to="/tsstatus">TS-Status</router-link></li>
+    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+      <!-- <a href="/" class="d-flex align-items-center mb-2 mb-lg-0 text-dark text-decoration-none">
+      </a> -->
+      <router-link to="/" class="navbar-brand" title="FlightGear SceneModels Database">
+        <img width="50px" src="./assets/FlightGear_logo.svg"/>
+      </router-link>
+
+      <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+        <li><router-link class="nav-link px-2 link-dark" to="/">Home</router-link></li>
+        <li><router-link class="nav-link px-2 link-dark" to="/contribute">Contribute</router-link></li>
+        <li><router-link class="nav-link px-2 link-dark" to="/models">Models</router-link></li>
+        <li><router-link class="nav-link px-2 link-dark" to="/objects">Objects</router-link></li>
+        <li><router-link class="nav-link px-2 link-dark" to="/authors">Authors</router-link></li>
+        <li><router-link class="nav-link px-2 link-dark" to="/stats">Stats</router-link></li>
+        <li><router-link class="nav-link px-2 link-dark" to="/tsstatus">TS-Status</router-link></li>
             <!-- <li data-bind="css: { active: isActiveLeft('home') }"><a href="#home">Home</a></li>
           <li data-bind="css: { active: isActiveLeft('contribute') }"><a href="#contribute">Contribute</a></li>
           <li data-bind="css: { active: isActiveLeft('models') }"><a href="#models">Models</a></li>
           <li data-bind="css: { active: isActiveLeft('objects') }"><a href="#objects">Objects</a></li>
           <li data-bind="css: { active: isActiveLeft('authors') }"><a href="#authors">Authors</a></li>
           <li data-bind="css: { active: isActiveLeft('tsstatus') }"><a href="#tsstatus">TS-Status</a></li> -->
-          </ul>
 
-          <form class="navbar-form navbar-right">
-            <div class="form-group input-group">
-              <input class="form-control" type="text" placeholder="Search (not available yet)" />
-            </div>
-          </form>
+      </ul>
 
-          <ul class="nav navbar-nav navbar-right">
-            <check-client-version />
-            <li>
-              <span class="glyphicon glyphicon-user"></span>
-            </li>
-          </ul>
-        </div>
+      <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
+        <input type="search" class="form-control" placeholder="Search (not available yet)...">
+      </form>
+
+      <div class="text-end">
+        <check-client-version />
+        <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16"><path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+
+        <!-- <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+          <span class="glyphicon glyphicon-user"></span>
+        </a>
+        <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
+          <li><a class="dropdown-item" href="#">New project...</a></li>
+          <li><a class="dropdown-item" href="#">Settings</a></li>
+          <li><a class="dropdown-item" href="#">Profile</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="#">Sign out</a></li>
+        </ul> -->
       </div>
-    </nav>
+    </div>
 
     <div class="container-fluid">
       <div class="row">

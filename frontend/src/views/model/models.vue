@@ -1,14 +1,15 @@
 <template>
   <div class="row">
     <div class="col-md-2">
-      <ul class="nav nav-pills nav-stacked" :class="{ loading: modelGroupsLoading }">
+      <ul class="nav nav-pills flex-column" :class="{ loading: modelGroupsLoading }">
         <li
+          class="nav-item"
           role="presentation"
           v-for="(group, index) in modelgroups"
           :key="index"
           :class="{ active: selectedModelgroup && group.id === selectedModelgroup.id }"
         >
-          <a href="#" v-text="group.name" @click.prevent="selectGroup(group)"></a>
+          <a class="nav-link" href="#" v-text="group.name" @click.prevent="selectGroup(group)" :class="{ active: selectedModelgroup && group.id === selectedModelgroup.id }"></a>
         </li>
       </ul>
     </div>
@@ -20,10 +21,8 @@
           <span class="btn pull-right fa fa-sync" @click="reload" title="Refresh"></span>
         </div>
 
-        <div class="panel-body">
-          <div style="vertical-align: top; display: inline-block" v-for="model in models" :key="model.id">
-            <model-short :model="model"></model-short>
-          </div>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <model-short v-for="model in models" :key="model.id" :model="model"></model-short>
         </div>
       </div>
     </div>

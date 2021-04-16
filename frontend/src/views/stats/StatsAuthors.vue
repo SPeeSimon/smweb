@@ -1,25 +1,25 @@
 <template>
-  <div class="panel-group">
-    <div class="panel panel-default" :class="{ loading: authorsLoading }">
-      <div class="panel-heading"><span>Top Authors</span><reload-button @reload="reloadTopAuthors" /></div>
-      <div class="panel-body">
+  <div class="card-group">
+    <div class="card card-default" :class="{ loading: authorsLoading }">
+      <div class="card-header"><span>Top Authors</span><reload-button @reload="reloadTopAuthors" /></div>
+      <div class="card-body">
         <div v-if="topAuthor.length !== 0">
           <h5>all time</h5>
-          <ol class="list-group">
-            <li class="list-group-item" v-for="author in topAuthor" :key="author.author_id">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="author in topAuthor" :key="author.author_id">
               <router-link :to="{ name: 'author', params: { id: author.author_id } }" v-text="author.author"></router-link>
-              <span class="badge" v-text="author.count">0</span>
+              <span class="badge bg-secondary rounded-pill" v-text="author.count">0</span>
             </li>
-          </ol>
+          </ul>
         </div>
         <div v-if="topAuthor90.length !== 0">
           <h5>last 90 days</h5>
-          <ol class="list-group">
-            <li class="list-group-item" v-for="author in topAuthor90" :key="author.author_id">
+          <ul class="list-group">
+            <li class="list-group-item d-flex justify-content-between align-items-center" v-for="author in topAuthor90" :key="author.author_id">
               <router-link :to="{ name: 'author', params: { id: author.author_id } }" v-text="author.author"></router-link>
-              <span class="badge" v-text="author.count">0</span>
+              <span class="badge bg-secondary rounded-pill" v-text="author.count">0</span>
             </li>
-          </ol>
+          </ul>
         </div>
       </div>
     </div>
