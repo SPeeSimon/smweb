@@ -7,7 +7,7 @@ export class ModelService {
           .then(d => d.json());
   }
 
-  public getLatest(num: number): Promise<Response> {
+  public getLatest(num: number): Promise<any[]> {
     return fetch("/scenemodels/models/list/20/index.json")
     // return fetch(this.baseUrl + "/models/list/" + num)
     .then(d => d.json());

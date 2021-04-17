@@ -15,7 +15,7 @@ const HOUR_IN_MS = 3600*1000;
 @Component({ name: "check-client-version" })
 export default class CheckClientVersion extends Vue {
   protected updateAvailable = false;
-  private clientVersion: string = null;
+  private clientVersion: string;
 
   constructor() {
     super();

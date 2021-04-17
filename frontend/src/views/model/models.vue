@@ -15,13 +15,12 @@
     </div>
 
     <div class="col-md-10">
-      <div class="panel panel-default" :class="{ loading: modelsLoading }">
-        <div class="panel-heading">
+      <div class="card card-default" :class="{ loading: modelsLoading }">
+        <div class="card-header">
           <span>Models</span>
           <span class="btn pull-right fa fa-sync" @click="reload" title="Refresh"></span>
         </div>
-
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="card-body row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
           <model-short v-for="model in models" :key="model.id" :model="model"></model-short>
         </div>
       </div>
@@ -44,7 +43,7 @@ import ReloadButton from "../../components/ReloadButton.vue";
 })
 export default class extends Vue {
   private modelgroups: ModelGroup[] = [];
-  private selectedModelgroup = null;
+  private selectedModelgroup: any = null;
   private modelGroupsLoading = false;
   private start = 0;
   private length = 20;
@@ -59,21 +58,21 @@ export default class extends Vue {
       .then(() => this.reloadModels(this.modelgroups[0].id, this.start, this.length));
   }
 
-  private selectAll(a, b) {
+  private selectAll(a: any, b: any) {
     this.selectedModelgroup = null;
   }
 
-  private selectGroup(a) {
+  private selectGroup(a: any) {
     this.selectedModelgroup = a;
   }
 
-  private isSelected(modelGroup) {
+  private isSelected(modelGroup: any) {
     if (!modelGroup) return !this.selectedModelgroup;
     if (!this.selectedModelgroup) return false;
     return modelGroup.id === this.selectedModelgroup.id;
   }
 
-  private reloadModels(modelGroup, start, length) {
+  private reloadModels(modelGroup: any, start: number, length: number) {
     this.modelsLoading = true;
 
     new ModelService("")

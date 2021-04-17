@@ -13,8 +13,8 @@
           <th v-for="(dataItem, index) in dataItems" v-text="dataItem" :key="index"></th>
         </tr>
       </thead>
-      <tbody data-bind="foreach: data">
-        <tr v-for="(mirror, index) in mirrors" data-bind1="click: selectAuthor" :key="index">
+      <tbody>
+        <tr v-for="(mirror, index) in mirrors" :key="index">
           <td>
             <a v-text="mirror.url" :href="mirror.url" target="_blank"></a>
           </td>

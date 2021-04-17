@@ -1,17 +1,14 @@
 <template>
   <div class="well">
-    <div class="panel panel-default">
-      <div class="panel-heading"><span>Model #</span><span v-text="model.id"></span></div>
-      <div class="panel-body">
+    <div class="card card-default">
+      <div class="card-header"><span>Model #</span><span v-text="model.id"></span></div>
+      <div class="card-body">
         <div class="row py-5">
           <div class="col-md-4">
-            <img :src="model.thumbnail" class="img-responsive img-rounded fg-model-thumb" style="float: left" />
+            <img :src="model.thumbnail" class="img-responsive img-rounded fg-model-thumb" />
           </div>
           <div class="col-md-8">
             <div class="form-horizontal">
-              <!-- <div class="input-group">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" @click="showModel3DView">3D View</button>
-              </div> -->
               <div class="input-group">
                 <span class="input-group-text" style="width: 8em">Name</span>
                 <input
@@ -85,8 +82,8 @@
                   <th class="text-right">Size</th>
                 </tr>
               </thead>
-              <tbody class="table-striped" v-for="(record, index) in model.content" :key="index">
-                <tr>
+              <tbody class="table-striped">
+                <tr v-for="(record, index) in model.content" :key="index">
                   <td v-text="record.filename"></td>
                   <td class="text-right"><span v-text="record.filesize"></span><span> Bytes</span></td>
                 </tr>
@@ -105,8 +102,8 @@
                   <th>Map</th>
                 </tr>
               </thead>
-              <tbody class="table-striped" v-for="(position, index) in positions" :key="index">
-                <tr>
+              <tbody class="table-striped">
+                <tr v-for="(position, index) in positions" :key="index">
                   <td v-text="position.longitude"></td>
                   <td v-text="position.latitude"></td>
                   <td v-text="position.elevation"></td>
@@ -200,12 +197,6 @@ export default class extends Vue {
 
     if (i.requestFullscreen) {
       i.requestFullscreen();
-      // } else if (i.webkitRequestFullscreen) {
-      //   i.webkitRequestFullscreen();
-      // } else if (i.mozRequestFullScreen) {
-      //   i.mozRequestFullScreen();
-      // } else if (i.msRequestFullscreen) {
-      //   i.msRequestFullscreen();
     }
   }
 

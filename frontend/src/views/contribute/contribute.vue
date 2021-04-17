@@ -21,8 +21,8 @@
           https://scenery.flightgear.org/ for this functionality.
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <a class="btn btn-outline-secondary btn-lg px-4" href="https://scenery.flightgear.org/" target="_blank">
-            Go to the FlightGear scenery website
+          <a class="btn btn-primary btn-lg px-4" href="https://scenery.flightgear.org/" target="_blank">
+            To the original FlightGear scenery website
           </a>
         </div>
       </div>

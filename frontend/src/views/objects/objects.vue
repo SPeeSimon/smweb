@@ -18,8 +18,8 @@
           <th>Map</th>
         </tr>
       </thead>
-      <tbody class="table-striped" v-for="object in objects" :key="object.id">
-        <tr>
+      <tbody class="table-striped">
+        <tr v-for="object in objects" :key="object.id">
           <td v-text="object.id"></td>
           <td v-text="object.title"></td>
           <td>
@@ -33,22 +33,21 @@
           <td v-text="object.heading"></td>
           <td>
             <a :href="getMapUrl(object)" target="_blank" title="show on map" alt="show on map">
-              <span class="glyphicon glyphicon-map-marker"></span>
+              <i class="bi bi-geo-alt-fill"></i>
             </a>
           </td>
         </tr>
       </tbody>
     </table>
     <nav aria-label="Page navigation">
-      <ul class="pagination">
-        <li>
-          <a href="#" aria-label="Previous" @click.prevent="prev" alt="Previous Page" title="Previous Page">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{disabled: start === 0}">
+          <a class="page-link" href="#" aria-label="Previous" @click.prevent="prev" alt="Previous Page" title="Previous Page">
+            Previous</a>
         </li>
-        <li>
-          <a href="#" aria-label="Next" @click.prevent="next" alt="Next Page" title="Next Page">
-            <span aria-hidden="true">&raquo;</span>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next" @click.prevent="next" alt="Next Page" title="Next Page">
+            Next
           </a>
         </li>
       </ul>
@@ -120,7 +119,7 @@ export default class extends Vue {
       });
   }
 
-  getMapUrl(object) {
+  getMapUrl(object: any) {
     return "https://scenery.flightgear.org/map?z=15&lat=" + object.latitude + "&lon=" + object.longitude;
   }
 }

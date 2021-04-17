@@ -11,8 +11,8 @@
           <th class="text-right">Models</th>
         </tr>
       </thead>
-      <tbody v-for="author in authors" :key="author.id">
-        <tr click="selectAuthor(author)">
+      <tbody>
+        <tr v-for="author in authors" :key="author.id" click="selectAuthor(author)">
           <td>
             <router-link to="{ name: 'author', params: {id: author.id}}" :text="author.name">{{ author.name }}</router-link>
           </td>
@@ -23,20 +23,21 @@
         </tr>
       </tbody>
     </table>
+    
     <nav aria-label="Page navigation">
-      <ul class="pagination">
-        <li>
-          <a href="#" aria-label="Previous" @click.prevent="prev" alt="Previous Page" title="Previous Page">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
+      <ul class="pagination justify-content-center">
+        <li class="page-item" :class="{disabled: start === 0}">
+          <a class="page-link" href="#" aria-label="Previous" @click.prevent="prev" alt="Previous Page" title="Previous Page">
+            Previous</a>
         </li>
-        <li>
-          <a href="#" aria-label="Next" @click.prevent="next" alt="Next Page" title="Next Page">
-            <span aria-hidden="true">&raquo;</span>
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next" @click.prevent="next" alt="Next Page" title="Next Page">
+            Next
           </a>
         </li>
       </ul>
     </nav>
+
   </div>
 </template>
 
