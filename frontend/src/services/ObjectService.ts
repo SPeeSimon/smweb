@@ -9,4 +9,12 @@ export class ObjectService {
     console.log('fetching', url)
     return fetch('scenemodels/objects/objects.json').then(d => d.json());
   }
+
+  public getById(id: string|number): Promise<any> {
+    const url = this.baseUrl + "/object/" + id;
+    console.log('fetching', url)
+    return fetch('scenemodels/objects/object.json')
+            .then(d => d.json())
+            ;
+  }
 }

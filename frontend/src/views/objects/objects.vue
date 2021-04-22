@@ -20,7 +20,9 @@
       </thead>
       <tbody class="table-striped">
         <tr v-for="object in objects" :key="object.id">
-          <td v-text="object.id"></td>
+          <td>
+            <router-link :to="{ name: 'object', params: { id: object.id } }" v-text="object.id"></router-link>
+          </td>
           <td v-text="object.title"></td>
           <td>
             <router-link :to="{ name: 'model', params: { id: object.modelId } }" v-text="object.modelName"></router-link>
