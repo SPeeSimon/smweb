@@ -142,27 +142,6 @@
           </div>
         </div>
       </div>
-      <div id="Model3DView" ref="Model3DView" class="modal modal-lg fade" role="dialog">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <button type="button" class="close" @click="fullscreen">
-                <span class="glyphicon glyphicon-fullscreen"></span>
-              </button>
-              <h4 class="modal-title"><span>3D View of </span><span v-text="model.name"></span></h4>
-            </div>
-            <div class="modal-body" style="height: 300px" id="Model3DViewBody" ref="Model3DViewBody">
-              <iframe
-                :src="'https://scenery.flightgear.org/app.php?c=Models&a=modelViewer&id=' + model.id"
-                style="width: 100%; height: 100%; border: 0; padding: 0; margin: 0"
-              ></iframe>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" @click="hideModel3DView">Close</button>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
