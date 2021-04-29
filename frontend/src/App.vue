@@ -9,20 +9,13 @@
       </router-link>
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-        <li><router-link class="nav-link px-2 link-dark" to="/">Home</router-link></li>
-        <li><router-link class="nav-link px-2 link-dark" to="/contribute">Contribute</router-link></li>
-        <li><router-link class="nav-link px-2 link-dark" to="/models">Models</router-link></li>
-        <li><router-link class="nav-link px-2 link-dark" to="/objects">Objects</router-link></li>
-        <li><router-link class="nav-link px-2 link-dark" to="/authors">Authors</router-link></li>
-        <li><router-link class="nav-link px-2 link-dark" to="/stats">Stats</router-link></li>
-        <li><router-link class="nav-link px-2 link-dark" to="/tsstatus">TS-Status</router-link></li>
-            <!-- <li data-bind="css: { active: isActiveLeft('home') }"><a href="#home">Home</a></li>
-          <li data-bind="css: { active: isActiveLeft('contribute') }"><a href="#contribute">Contribute</a></li>
-          <li data-bind="css: { active: isActiveLeft('models') }"><a href="#models">Models</a></li>
-          <li data-bind="css: { active: isActiveLeft('objects') }"><a href="#objects">Objects</a></li>
-          <li data-bind="css: { active: isActiveLeft('authors') }"><a href="#authors">Authors</a></li>
-          <li data-bind="css: { active: isActiveLeft('tsstatus') }"><a href="#tsstatus">TS-Status</a></li> -->
-
+        <li><router-link :class="{active: isActivePage('Home')}" class="nav-link px-2 link-dark" to="/">Home</router-link></li>
+        <li><router-link :class="{active: isActivePage('contribute')}" class="nav-link px-2 link-dark" to="/contribute">Contribute</router-link></li>
+        <li><router-link :class="{active: isActivePage('models')}" class="nav-link px-2 link-dark" to="/models">Models</router-link></li>
+        <li><router-link :class="{active: isActivePage('objects')}" class="nav-link px-2 link-dark" to="/objects">Objects</router-link></li>
+        <li><router-link :class="{active: isActivePage('authors')}" class="nav-link px-2 link-dark" to="/authors">Authors</router-link></li>
+        <li><router-link :class="{active: isActivePage('Stats')}" class="nav-link px-2 link-dark" to="/stats">Stats</router-link></li>
+        <li><router-link :class="{active: isActivePage('TS-Status')}" class="nav-link px-2 link-dark" to="/tsstatus">TS-Status</router-link></li>
       </ul>
 
       <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3">
@@ -37,7 +30,6 @@
           <span class="glyphicon glyphicon-user"></span>
         </a>
         <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-          <li><a class="dropdown-item" href="#">New project...</a></li>
           <li><a class="dropdown-item" href="#">Settings</a></li>
           <li><a class="dropdown-item" href="#">Profile</a></li>
           <li><hr class="dropdown-divider"></li>
@@ -62,6 +54,13 @@
         >Models &copy; by their respective author. This website &copy; Torsten Dreyer 2017. If in doubt, ask at
         <a href="https://sourceforge.net/p/flightgear/mailman/flightgear-devel/">the flightgear-devel mailing list.</a></small
       >
+      <!--
+      Version info
+      Volunteer?
+      Readme
+      License
+      History
+      -->
     </footer>
   </div>
 </template>
@@ -77,7 +76,12 @@ import Stats from "./views/Stats.vue";
     Stats
   },
 })
-export default class Home extends Vue {}
+export default class Home extends Vue {
+
+  isActivePage(page) {
+    return page === this.$route.name;
+  }
+}
 </script>
 
 <style lang="scss">
