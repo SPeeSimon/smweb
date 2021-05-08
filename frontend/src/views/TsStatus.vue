@@ -36,7 +36,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import ReloadButton from "../components/ReloadButton.vue";
-import { TerrasyncContainer, TerrasyncRoot, TerrasyncService } from "../services/TerrasyncService";
+import { TerrasyncContainer, TerrasyncData, TerrasyncRoot, TerrasyncService } from "../services/TerrasyncService";
 
 @Component({
   components: {
@@ -45,8 +45,8 @@ import { TerrasyncContainer, TerrasyncRoot, TerrasyncService } from "../services
 })
 export default class extends Vue {
   private loading = true;
-  private mirrors = [];
-  private dataItems: TerrasyncContainer[] = [];
+  private mirrors: TerrasyncRoot[] = [];
+  private dataItems: string[] = [];
   private error = null;
 
   private created() {
@@ -64,7 +64,7 @@ export default class extends Vue {
         this.mirrors = json.sort((a, b) => a.url.localeCompare(b.url));
         this.dataItems = this.prepareHashes(this.mirrors);
       })
-      .catch(err => {
+      .catch((err) => {
         this.error = err;
       })
       .finally(() => {
@@ -72,12 +72,12 @@ export default class extends Vue {
       });
   }
 
-  private prepareHashes(data: TerrasyncRoot[]): TerrasyncContainer[] {
-    const dirs = new Set<TerrasyncContainer>();
+  private prepareHashes(data: TerrasyncRoot[]): string[] {
+    const dirs = new Set<string>();
     data
       .filter((di) => di.dirindex && di.dirindex.d)
-      .map(di => di.dirindex.d)
-      .forEach((di) => {
+      .map((di) => di.dirindex.d)
+      .forEach((di: TerrasyncData) => {
         for (const d in di) {
           dirs.add(d);
         }

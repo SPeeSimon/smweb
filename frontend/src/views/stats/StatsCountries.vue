@@ -20,17 +20,15 @@ export default {
       numElev: 0,
       statsLoading: false,
       historyLoading: false,
-      authorsLoading: false
-    }
+      authorsLoading: false,
+    };
   },
   methods: {
-
     reload() {
-      console.log('reload stats countries')
-    }
-
+      console.log("reload stats countries");
+    },
   },
-}
+};
 </script>
 
 <style>

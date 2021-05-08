@@ -47,7 +47,7 @@ export default class extends Vue {
   private modelGroupsLoading = false;
   private start = 0;
   private length = 20;
-  private models = [];
+  private models: any[] = [];
   private modelsLoading = false;
 
   private created() {

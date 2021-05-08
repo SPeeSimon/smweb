@@ -78,7 +78,7 @@ import Stats from "./views/Stats.vue";
 })
 export default class Home extends Vue {
 
-  isActivePage(page) {
+  isActivePage(page: string) {
     return page === this.$route.name;
   }
 }

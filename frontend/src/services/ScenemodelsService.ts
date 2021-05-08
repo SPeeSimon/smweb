@@ -1,3 +1,5 @@
+import { FeatureCollection, Point } from "geojson";
+
 export class ScenemodelsService {
     constructor(private baseUrl: string) {}
   
@@ -32,27 +34,48 @@ export class ScenemodelsService {
     //   this.content = c
       return data;
     }
+
+    private isFeatureCollection(data: any): data is FeatureCollection {
+        return data && data.type === "FeatureCollection" && data.features && Array.isArray(data.features);
+    }
+
+    private isPoint(data: any): data is Point {
+        return data && data.type === "Point" && data.features && Array.isArray(data.features);
+    }
+
+    private isGeoPoint(data: any): data is FeatureCollection<Point, any> {
+        if (this.isFeatureCollection(data)) {
+            if (data.features.reduce( (prev,cur) => prev && this.isPoint(cur), true)) {
+                // all features are Points
+                return true;
+            }
+        }
+        return false;
+    }
   
     public getPositionsById(id: number): Promise<ModelPosition[]> {
         return fetch("scenemodels/model/positions.json")
         // return fetch(this.baseUrl + "scenemodels/model/" + id + "/positions")
         .then(response => response.json())
         .then(data => {
-            if( data && data.type === "FeatureCollection" && data.features && Array.isArray(data.features) ) {
+            // geojson FeatureCollection
+            if( this.isGeoPoint(data)) {
                 return data
             }
         })
         .then(data => {
-            if( data && data.type === "FeatureCollection" && data.features && Array.isArray(data.features) ){
-                return data.features.map(f => 
-                    new ModelPosition(f.geometry.coordinates[1], f.geometry.coordinates[0], f.properties.country, f.properties.gndelev))
-            }
+            // map to geojson Feature/Point
+            if (data)
+                return data.features
+                    .map(f => 
+                        new ModelPosition(f.geometry.coordinates[1], f.geometry.coordinates[0], f.properties.country, f.properties.gndelev)
+                    )
             return []
         })
     }
 
 }
-  
+
 export class ModelPosition {
     constructor(public latitude: any,
         public longitude: any,
