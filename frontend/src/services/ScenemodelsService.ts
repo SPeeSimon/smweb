@@ -45,7 +45,7 @@ export class ScenemodelsService {
 
     private isGeoPoint(data: any): data is FeatureCollection<Point, any> {
         if (this.isFeatureCollection(data)) {
-            if (data.features.length > 0 && data.features.reduce( (prev,cur) => prev && this.isPoint(cur), true)) {
+            if (data.features.length > 0 && data.features.reduce( (prev,cur) => prev && this.isPoint(cur.geometry), true)) {
                 // all features are Points
                 return true;
             }

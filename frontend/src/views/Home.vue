@@ -11,9 +11,9 @@
           All data on this site (and the site's source code itself) is available under the GNU General Public License 2.
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <a class="btn btn-outline-secondary btn-lg px-4" href="http://www.flightgear.org" target="_blank"
-            >Go to the FlightGear website</a
-          >
+          <a class="btn btn-outline-primary btn-lg px-4" href="http://www.flightgear.org" target="_blank">Go to the FlightGear website</a>
+          <router-link class="btn btn-outline-secondary btn-lg px-4" to="/models">Find Model</router-link>
+          <router-link class="btn btn-outline-secondary btn-lg px-4" to="/objects">Find Object</router-link>
         </div>
         <!--
         <div class="text-center alert alert-danger alert-dismissible" role="alert">
@@ -33,8 +33,8 @@
       </div>
 
       <div class="panel-body" data-bind="foreach: latestModels">
-        <div style="vertical-align: top; display: inline-block" v-for="model in models" :key="model.id">
-          <model-short :model="model"></model-short>
+        <div class="card-body row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <model-short v-for="model in models" :key="model.id" :model="model"></model-short>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@ export default class Home extends Vue {
   public reload() {
     this.modelsLoading = true;
     new ModelService("")
-      .getLatest(20)
+      .getLatest(6)
       .then((data) => {
         if (!(data && Array.isArray(data))) return;
         this.models = data;

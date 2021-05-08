@@ -14,7 +14,10 @@ export class ModelService {
   }
 
   public getThumbUrl(id: number): string {
-    return this.baseUrl + "/model/" + id + "/thumb";
+    if (id % 2 ==0 )
+      return this.baseUrl + "/scenemodels/model/"+id+"/thumb";
+    return this.baseUrl + "/scenemodels/model/7985/thumb";
+    // return this.baseUrl + "/model/" + id + "/thumb";
   }
 
   public getByAuthor(author: number, start?: number, length?: number): Promise<any[]> {
