@@ -122,7 +122,8 @@ export default class extends Vue {
   }
 
   getMapUrl(object: any) {
-    return "https://scenery.flightgear.org/map?z=15&lat=" + object.latitude + "&lon=" + object.longitude;
+    // return "https://scenery.flightgear.org/map?z=15&lat=" + object.latitude + "&lon=" + object.longitude;
+    return "/map?z=15&lat=" + object.latitude + "&lon=" + object.longitude;
   }
 }
 </script>

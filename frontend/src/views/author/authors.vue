@@ -14,7 +14,7 @@
       <tbody>
         <tr v-for="author in authors" :key="author.id" click="selectAuthor(author)">
           <td>
-            <router-link to="{ name: 'author', params: {id: author.id}}" :text="author.name">{{ author.name }}</router-link>
+            <router-link :to="{ name: 'author', params: {id: author.id}}" :text="author.name">{{ author.name }}</router-link>
           </td>
           <td v-text="author.notes"></td>
           <td class="text-right">

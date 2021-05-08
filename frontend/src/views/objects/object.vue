@@ -34,13 +34,12 @@
               <div class="input-group">
                 <span class="input-group-text col-md-3">Country</span>
                 <input type="text" class="form-control" placeholder="fixme" :value="object.properties.country" :readonly="true" />
-                <a
+                <router-link :to="{ name: 'objects', query: {country: object.properties.country} }"
                   class="btn btn-secondary"
-                  href="app.php?c=Objects&amp;a=search&amp;country={object.properties.country}"
                   v-if="hasCountryCode"
-                >
+                  >
                   View <span class="d-none d-lg-inline">all objects for counry</span> <i class="bi bi-chevron-right"></i>
-                </a>
+                </router-link>
               </div>
               <div class="input-group">
                 <span class="input-group-text col-md-3">Ground elevation</span>
@@ -58,8 +57,6 @@
                 <span class="input-group-text">&deg; (STG)</span>
                 <input type="text" class="form-control" placeholder="fixme" :value="orientationDegree" :readonly="true" />
                 <span class="input-group-text">&deg; (true)</span>
-
-                <!-- <?php echo \ObjectUtils::headingTrue2STG($position.getOrientation())." - ".$position.getOrientation()."&deg; (true)"; ?> -->
               </div>
               <div class="input-group">
                 <span class="input-group-text col-md-3">Group</span>
@@ -125,8 +122,8 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 })
 export default class extends Vue {
   private country = {};
-  private object = {};
-  private position;
+  private object: any = {};
+  // private position;
   private cantWrite = true;
 
   public created() {

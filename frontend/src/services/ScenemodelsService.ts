@@ -36,16 +36,16 @@ export class ScenemodelsService {
     }
 
     private isFeatureCollection(data: any): data is FeatureCollection {
-        return data && data.type === "FeatureCollection" && data.features && Array.isArray(data.features);
+        return data && data.type === "FeatureCollection" && Array.isArray(data.features);
     }
 
     private isPoint(data: any): data is Point {
-        return data && data.type === "Point" && data.features && Array.isArray(data.features);
+        return data && data.type === "Point" && Array.isArray(data.coordinates);
     }
 
     private isGeoPoint(data: any): data is FeatureCollection<Point, any> {
         if (this.isFeatureCollection(data)) {
-            if (data.features.reduce( (prev,cur) => prev && this.isPoint(cur), true)) {
+            if (data.features.length > 0 && data.features.reduce( (prev,cur) => prev && this.isPoint(cur), true)) {
                 // all features are Points
                 return true;
             }

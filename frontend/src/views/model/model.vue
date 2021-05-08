@@ -36,11 +36,20 @@
               <div class="input-group">
                 <span class="input-group-text" style="width: 8em">Author</span>
                 <input type="text" class="form-control" placeholder="fixme" :value="model.author" :readonly="cantWrite" />
-                <button type="button" class="btn btn-secondary">View <i class="bi bi-chevron-right"></i></button>
+                <router-link class="btn btn-secondary" :to="{name: 'author', params: { author: model.author } }" >
+                  View <i class="bi bi-chevron-right"></i>
+                </router-link>
               </div>
               <div>
                 <hr />
                 <p class="text-start"><span>The last update of this model was </span><span v-text="model.modified"></span></p>
+              </div>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button class="btn btn-outline-secondary">Download</button>
+                <button class="btn btn-outline-secondary">Update details</button>
+                <router-link class="btn btn-secondary" :to="{name: 'objects', query: {model: model.id}}" >
+                  View objects <i class="bi bi-chevron-right"></i>
+                </router-link>
               </div>
             </div>
           </div>
