@@ -28,3 +28,15 @@ export class ModelService {
     return fetch('/scenemodels/models/search/byauthor/models.json').then(d => d.json());
   }
 }
+
+
+export interface FGModel {
+  id: number;
+  filename: string;
+  name: string;
+  notes: string;
+  shared: number;
+  modified: Date;
+  author: string;
+  authorId: number;
+}

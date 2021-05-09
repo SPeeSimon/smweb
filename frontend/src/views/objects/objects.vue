@@ -60,7 +60,7 @@
 <script lang="ts">
 import ReloadButton from "../../components/ReloadButton.vue";
 import { ObjectService } from "../../services/ObjectService";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -78,42 +78,20 @@ export default class extends Vue {
 
   next() {
     this.start = this.start + this.length;
-    this.reload();
+    this.$route.params.start = this.start;
   }
 
   prev() {
     this.start = Math.max(0, this.start - this.length);
-    this.reload();
+    this.$route.params.start = this.start;
   }
 
+  @Watch("$route.params", { immediate: true, deep: true })
   reload() {
     new ObjectService("")
       .getAll(this.start, this.length)
       .then((data) => {
-        if (data && data.type === "FeatureCollection" && data.features && Array.isArray(data.features)) {
-          return data;
-        }
-      })
-      .then((data) => {
-        this.objects = data.features.map((f) =>
-          Object.assign(
-            {},
-            {
-              id: f.id,
-              modelId: f.properties.model_id,
-              modelName: f.properties.model_name,
-              elevation: f.properties.gndelev,
-              elevOffset: f.properties.elevoffset,
-              heading: f.properties.heading,
-              shared: f.properties.shared,
-              stg: f.properties.stg,
-              country: f.properties.country,
-              title: f.properties.title,
-              longitude: f.geometry.coordinates[0],
-              latitude: f.geometry.coordinates[1],
-            }
-          )
-        );
+        this.objects = data;
       })
       .catch((err) => {
         //TODO: notify user

@@ -113,7 +113,7 @@
 <script lang="ts">
 import ReloadButton from "../../components/ReloadButton.vue";
 import { ObjectService } from "../../services/ObjectService";
-import { Component, Prop, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -128,13 +128,14 @@ export default class extends Vue {
 
   public created() {
     // watch the params of the route to fetch the data again
-    this.$watch(
-      () => this.$route.params,
-      () => this.reload(),
-      { immediate: true }
-    );
+    // this.$watch(
+    //   () => this.$route.params,
+    //   () => this.reload(),
+    //   { immediate: true }
+    // );
   }
 
+  @Watch("$route.params", { immediate: true, deep: true })
   private reload() {
     const objectId = this.$route.params.id;
     const objectService = new ObjectService("");

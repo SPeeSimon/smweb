@@ -10,36 +10,36 @@ export class TerrasyncService {
 }
 
 
-    export interface TerrasyncData {
-        Details: string;
-        Roads: string;
-        Buildings: string;
-        Pylons: string;
-        Airports: string;
-        Models: string;
-        Objects: string;
-        Terrain: string;
-    }
+export interface TerrasyncData {
+    Details: string;
+    Roads: string;
+    Buildings: string;
+    Pylons: string;
+    Airports: string;
+    Models: string;
+    Objects: string;
+    Terrain: string;
+}
 
-    export interface TerrasyncContainer {
-        version: string;
-        path: string;
-        d: TerrasyncData;
-        time: string;
-    }
+export interface TerrasyncContainer {
+    version: string;
+    path: string;
+    d: TerrasyncData;
+    time: string;
+}
 
-    export interface TerrasyncProvider {
-        flags: string;
-        service: string;
-        regexp: string;
-        replacement: string;
-        order: number;
-        preference: number;
-        url: string;
-    }
+export interface TerrasyncProvider {
+    flags: string;
+    service: string;
+    regexp: string;
+    replacement: string;
+    order: number;
+    preference: number;
+    url: string;
+}
 
-    export interface TerrasyncRoot {
-        url: string;
-        dirindex: TerrasyncContainer;
-        dns: TerrasyncProvider;
-    }
+export interface TerrasyncRoot {
+    url: string;
+    dirindex: TerrasyncContainer;
+    dns: TerrasyncProvider;
+}

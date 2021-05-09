@@ -156,7 +156,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue, Watch } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { ScenemodelsService } from "../../services/ScenemodelsService";
 
@@ -173,11 +173,11 @@ export default class extends Vue {
 
   public created() {
     // watch the params of the route to fetch the data again
-    this.$watch(
-      () => this.$route.params,
-      () => this.reload(),
-      { immediate: true }
-    );
+    // this.$watch(
+    //   () => this.$route.params,
+    //   () => this.reload(),
+    //   { immediate: true }
+    // );
   }
 
   private fullscreen() {
@@ -188,6 +188,7 @@ export default class extends Vue {
     }
   }
 
+  @Watch("$route.params", { immediate: true })
   private reload() {
     const modelId = this.$route.params.id;
     const scenemodelService = new ScenemodelsService("");

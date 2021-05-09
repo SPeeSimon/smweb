@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-2 col-sm-12">
       <ul class="nav nav-pills flex-column" :class="{ loading: modelGroupsLoading }">
         <li
           class="nav-item"
@@ -14,13 +14,13 @@
       </ul>
     </div>
 
-    <div class="col-md-10">
+    <div class="col-md-10 col-sm-12">
       <div class="card card-default" :class="{ loading: modelsLoading }">
         <div class="card-header">
           <span>Models</span>
           <span class="btn pull-right fa fa-sync" @click="reload" title="Refresh"></span>
         </div>
-        <div class="card-body row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="card-body row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 g-3">
           <model-short v-for="model in models" :key="model.id" :model="model"></model-short>
         </div>
       </div>
