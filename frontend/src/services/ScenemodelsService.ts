@@ -3,7 +3,7 @@ import { FeatureCollection, Point } from "geojson";
 export class ScenemodelsService {
     constructor(private baseUrl: string) {}
   
-    public getModelById(id: number): Promise<any> {
+    public getModelById(id: number): Promise<FGModel> {
         return fetch("scenemodels/model/model.json")
         // return fetch(this.baseUrl + "scenemodels/model/" + id)
             .then(response => response.json())
@@ -25,7 +25,7 @@ export class ScenemodelsService {
     // })
     }
 
-    private convertToModelContent(data: any) {
+    private convertToModelContent(data: any): FGModel {
     //   let c = []
     //   if( data.content && Array.isArray(data.content) )
     //     data.content.forEach(function(e) {
@@ -82,4 +82,21 @@ export class ModelPosition {
         public country: any,
         public elevation: any) {
     }
+}
+
+export interface Content {
+    filename: string;
+    filesize: number;
+}
+
+export interface FGModel {
+    id: number;
+    filename: string;
+    modified: Date;
+    authorId: number;
+    name: string;
+    notes: string;
+    shared: number;
+    author: string;
+    content: Content[];
 }
