@@ -6,9 +6,11 @@
         <div class="row py-5">
           <div class="col-md-4">
             <img
-              src="app.php?c=Models&amp;a=thumbnail&amp;id={object.id}"
+              :src="thumbnail()"
               class="img-responsive img-rounded fg-model-thumb"
-              alt="Thumbnail"
+              :alt="'Thumbnail of ' + object.properties.title"
+              :title="object.properties.title"
+              v-on:error="fallbackToDefaultThumbImageUrl"
             />
           </div>
           <div class="col-md-8">
@@ -22,7 +24,7 @@
                 <input
                   type="text"
                   class="form-control"
-                  placeholder="A bit more text to describe this model"
+                  placeholder="A bit more text to describe this object"
                   :value="longitude"
                   readonly="true"
                 />
@@ -38,7 +40,7 @@
                   class="btn btn-secondary"
                   v-if="hasCountryCode"
                   >
-                  View <span class="d-none d-lg-inline">all objects for counry</span> <i class="bi bi-chevron-right"></i>
+                  View <span class="d-none d-lg-inline">all objects for country</span> <i class="bi bi-chevron-right"></i>
                 </router-link>
               </div>
               <div class="input-group">
@@ -74,7 +76,7 @@
                   :readonly="true"
                 />
                 <router-link class="btn btn-secondary" :to="{ name: 'model', params: { id: object.properties.model_id } }">
-                  View model <i class="bi bi-chevron-right"></i>
+                  View <span class="d-none d-lg-inline">model</span> <i class="bi bi-chevron-right"></i>
                 </router-link>
                 <!-- <?php
                     print "<a href=\"app.php?c=Models&a=view&id=".$object->getModelId()."\">".$modelMetadata->getFilename()."</a>";
@@ -189,5 +191,18 @@ export default class extends Vue {
     }
     return 180 - trueHeading;
   }
+
+  private thumbnail() {
+    if (this.object) {
+      return new ObjectService("").getThumbUrl(this.object.id);
+    }
+  }
+
+  private fallbackToDefaultThumbImageUrl(event: Event) {
+    event.target.src =
+      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktY2FyZC1pbWFnZSIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNNi4wMDIgNS41YTEuNSAxLjUgMCAxIDEtMyAwIDEuNSAxLjUgMCAwIDEgMyAweiIvPgogIDxwYXRoIGQ9Ik0xLjUgMkExLjUgMS41IDAgMCAwIDAgMy41djlBMS41IDEuNSAwIDAgMCAxLjUgMTRoMTNhMS41IDEuNSAwIDAgMCAxLjUtMS41di05QTEuNSAxLjUgMCAwIDAgMTQuNSAyaC0xM3ptMTMgMWEuNS41IDAgMCAxIC41LjV2NmwtMy43NzUtMS45NDdhLjUuNSAwIDAgMC0uNTc3LjA5M2wtMy43MSAzLjcxLTIuNjYtMS43NzJhLjUuNSAwIDAgMC0uNjMuMDYyTDEuMDAyIDEydi41NEEuNTA1LjUwNSAwIDAgMSAxIDEyLjV2LTlhLjUuNSAwIDAgMSAuNS0uNWgxM3oiLz4KPC9zdmc+";
+    event.target.style.opacity = 0.2;
+  }
+  
 }
 </script>

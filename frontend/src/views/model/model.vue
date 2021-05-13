@@ -5,7 +5,13 @@
       <div class="card-body">
         <div class="row py-5">
           <div class="col-md-4">
-            <img :src="model.thumbnail" class="img-responsive img-rounded fg-model-thumb" />
+            <img
+              :src="thumbnail()"
+              class="img-responsive img-rounded fg-model-thumb"
+              :alt="'Thumbnail of ' + model.name"
+              :title="model.name"
+              v-on:error="fallbackToDefaultThumbImageUrl"
+            />
           </div>
           <div class="col-md-8">
             <div class="form-horizontal">
@@ -36,7 +42,7 @@
               <div class="input-group">
                 <span class="input-group-text" style="width: 8em">Author</span>
                 <input type="text" class="form-control" placeholder="fixme" :value="model.author" :readonly="cantWrite" />
-                <router-link class="btn btn-secondary" :to="{name: 'author', params: { author: model.author } }" >
+                <router-link class="btn btn-secondary" :to="{ name: 'author', params: { author: model.author } }">
                   View <i class="bi bi-chevron-right"></i>
                 </router-link>
               </div>
@@ -46,9 +52,9 @@
               </div>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-outline-secondary">Download</button>
-                <button class="btn btn-outline-secondary">Update details</button>
-                <router-link class="btn btn-secondary" :to="{name: 'objects', query: {model: model.id}}" >
-                  View objects <i class="bi bi-chevron-right"></i>
+                <button class="btn btn-outline-secondary">Update <span class="d-none d-lg-inline">details</span></button>
+                <router-link class="btn btn-secondary" :to="{ name: 'objects', query: { model: model.id } }">
+                  View <span class="d-none d-lg-inline">objects</span> <i class="bi bi-chevron-right"></i>
                 </router-link>
               </div>
             </div>
@@ -112,7 +118,7 @@
                 </tr>
               </thead>
               <tbody class="table-striped">
-                <tr v-for="(position, index) in positions" :key="index">
+                <tr v-for="(position, index) in modelPositions" :key="index">
                   <td v-text="position.longitude"></td>
                   <td v-text="position.latitude"></td>
                   <td v-text="position.elevation"></td>
@@ -158,7 +164,8 @@
 <script lang="ts">
 import { Component, Inject, Vue, Watch } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
-import { ScenemodelsService } from "../../services/ScenemodelsService";
+import { FGModel, ModelService } from "../../services/ModelService";
+import { ModelPosition, ScenemodelsService } from "../../services/ScenemodelsService";
 
 @Component({
   components: {
@@ -166,10 +173,11 @@ import { ScenemodelsService } from "../../services/ScenemodelsService";
   },
 })
 export default class extends Vue {
-  private model = {};
-  private positions = [];
+  private model: FGModel = {};
+  private modelPositions: ModelPosition[];
   private cantWrite = true;
   private showTab = "files";
+  private scenemodelService = new ScenemodelsService("");
 
   public created() {
     // watch the params of the route to fetch the data again
@@ -182,7 +190,6 @@ export default class extends Vue {
 
   private fullscreen() {
     const i = this.$refs.Model3DViewBody as HTMLElement;
-
     if (i.requestFullscreen) {
       i.requestFullscreen();
     }
@@ -191,9 +198,8 @@ export default class extends Vue {
   @Watch("$route.params", { immediate: true })
   private reload() {
     const modelId = this.$route.params.id;
-    const scenemodelService = new ScenemodelsService("");
-    scenemodelService.getModelById(modelId).then((d) => (this.model = d));
-    scenemodelService.getPositionsById(modelId).then((data) => (this.positions = data));
+    this.scenemodelService.getModelById(modelId).then((d) => (this.model = d));
+    this.scenemodelService.getPositionsById(modelId).then((data) => (this.modelPositions = data));
   }
 
   private showModel3DView() {
@@ -204,17 +210,16 @@ export default class extends Vue {
     (this.$refs.Model3DView as HTMLElement).classList.remove("show", "in");
   }
 
-  //     createViewModel: function(params, componentInfo) {
-  //       $(componentInfo.element).find('.modal-content').resizable({
-  //         //alsoResize: ".modal-dialog",
-  //         minHeight: 300,
-  //         minWidth: 300
-  //       });
-  //       $(componentInfo.element).find('.modal-dialog').draggable();
-  //     }
-
   private thumbnail() {
-    return ""; // 'https://scenery.flightgear.org/scenemodels/model/' + id + '/thumb'
+    if (this.model) {
+      return new ModelService("").getThumbUrl(this.model.id);
+    }
+  }
+
+  private fallbackToDefaultThumbImageUrl(event: Event) {
+    event.target.src =
+      "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktY2FyZC1pbWFnZSIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNNi4wMDIgNS41YTEuNSAxLjUgMCAxIDEtMyAwIDEuNSAxLjUgMCAwIDEgMyAweiIvPgogIDxwYXRoIGQ9Ik0xLjUgMkExLjUgMS41IDAgMCAwIDAgMy41djlBMS41IDEuNSAwIDAgMCAxLjUgMTRoMTNhMS41IDEuNSAwIDAgMCAxLjUtMS41di05QTEuNSAxLjUgMCAwIDAgMTQuNSAyaC0xM3ptMTMgMWEuNS41IDAgMCAxIC41LjV2NmwtMy43NzUtMS45NDdhLjUuNSAwIDAgMC0uNTc3LjA5M2wtMy43MSAzLjcxLTIuNjYtMS43NzJhLjUuNSAwIDAgMC0uNjMuMDYyTDEuMDAyIDEydi41NEEuNTA1LjUwNSAwIDAgMSAxIDEyLjV2LTlhLjUuNSAwIDAgMSAuNS0uNWgxM3oiLz4KPC9zdmc+";
+    event.target.style.opacity = 0.2;
   }
 }
 </script>

@@ -59,6 +59,11 @@ export class ObjectService {
     console.log("fetching", url);
     return fetch("scenemodels/objects/object.json").then((d) => d.json());
   }
+
+  public getThumbUrl(id: string | number): string {
+    // src="app.php?c=Models&amp;a=thumbnail&amp;id={object.id}"
+    return "";
+  }
 }
 
 export interface ObjectProperties {

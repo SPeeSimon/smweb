@@ -18,6 +18,7 @@ export class ModelService {
       return this.baseUrl + "/scenemodels/model/"+id+"/thumb";
     return this.baseUrl + "/scenemodels/model/7985/thumb";
     // return this.baseUrl + "/model/" + id + "/thumb";
+    // 'https://scenery.flightgear.org/scenemodels/model/' + id + '/thumb'
   }
 
   public getByAuthor(author: number, start?: number, length?: number): Promise<any[]> {
