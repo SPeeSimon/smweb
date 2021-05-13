@@ -11,10 +11,10 @@
 import { Component, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { StatsService } from "../../services/StatsService";
-import { ArcElement, Chart, ChartData, ChartItem, Legend, PieController } from "chart.js";
+import { ArcElement, Chart, ChartData, ChartItem, Legend, PieController, Tooltip } from "chart.js";
 import { Author } from "../../services/AuthorService";
 
-Chart.register(PieController, Legend, ArcElement);
+Chart.register(PieController, Legend, ArcElement, Tooltip);
 
 // from "chartjs-plugin-colorschemes/src/colorschemes/colorschemes.tableau.js";
 const Tableau20 = [

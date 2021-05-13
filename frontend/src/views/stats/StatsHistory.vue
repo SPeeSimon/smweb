@@ -11,10 +11,10 @@
 import { Component, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { HistoryItem, StatsService } from "../../services/StatsService";
-import { Chart, ChartData, ChartItem, Legend, LinearScale, LineController, LineElement, PointElement, registerables, TimeSeriesScale, Title } from "chart.js";
+import { Chart, ChartData, ChartItem, Legend, LinearScale, LineController, LineElement, PointElement, registerables, TimeSeriesScale, Title, Tooltip } from "chart.js";
 import "chartjs-adapter-luxon";
 
-Chart.register(LineController, LinearScale, LineElement, Title, Legend, TimeSeriesScale, PointElement);
+Chart.register(LineController, LinearScale, LineElement, Title, Legend, TimeSeriesScale, Tooltip, PointElement);
 
 @Component({
   components: {
