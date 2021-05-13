@@ -40,10 +40,10 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12 col-xl-9 well" id="leftWidget">
+        <div class="col-12 col-xxl-9 well" id="leftWidget">
           <router-view />
         </div>
-        <div class="d-none d-xl-block col-xl-3 well" id="rightWidget">
+        <div class="d-none d-xxl-block col-xxl-3 well" id="rightWidget">
           <stats />
         </div>
       </div>
