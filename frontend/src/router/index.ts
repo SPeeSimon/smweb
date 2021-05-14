@@ -22,7 +22,8 @@ const routes: Array<RouteConfig> = [
   {
     path: "/contribute",
     name: "contribute",
-    component: () => import(/* webpackChunkName: "contribute" */ "../views/contribute/contribute.vue"),
+    // component: () => import(/* webpackChunkName: "contribute" */ "../views/contribute/contribute-notpossible.vue"),
+    component: () => import(/* webpackChunkName: "contribute" */ "../views/contribute/contribute-intro.vue"),
   },
   {
     path: "/models",
@@ -66,6 +67,10 @@ const routes: Array<RouteConfig> = [
     path: "/tsstatus",
     name: "TS-Status",
     component: () => import(/* webpackChunkName: "tsstatus" */ "../views/TsStatus.vue"),
+  },
+  {
+    path: "/static/:page(.*)",
+    component: () => import(/* webpackChunkName: "tsstatus" */ "../views/Static.vue"),
   },
 ];
 
