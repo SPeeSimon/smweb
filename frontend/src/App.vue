@@ -10,6 +10,7 @@
 
       <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><router-link :class="{active: isActivePage('Home')}" class="nav-link px-2 link-dark" to="/">Home</router-link></li>
+        <li><router-link :class="{active: isActivePage('news')}" class="nav-link px-2 link-dark" to="/news">News</router-link></li>
         <li><router-link :class="{active: isActivePage('contribute')}" class="nav-link px-2 link-dark" to="/contribute">Contribute</router-link></li>
         <li><router-link :class="{active: isActivePage('models')}" class="nav-link px-2 link-dark" to="/models">Models</router-link></li>
         <li><router-link :class="{active: isActivePage('objects')}" class="nav-link px-2 link-dark" to="/objects">Objects</router-link></li>
@@ -40,10 +41,10 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-12 col-xxl-9 well" id="leftWidget">
+        <div class="col-12 col-xxl-9 well g-0" id="leftWidget">
           <router-view />
         </div>
-        <div class="d-none d-xxl-block col-xxl-3 well" id="rightWidget">
+        <div class="d-none d-xxl-block col-xxl-3 well g-0" id="rightWidget">
           <stats />
         </div>
       </div>
