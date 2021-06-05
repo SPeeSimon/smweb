@@ -1,7 +1,9 @@
 <template>
   <div class="well">
     <div class="card card-default" v-if="notFound">
-      NOT FOUND
+      <div class="alert alert-danger" role="alert">
+        The requested model was not found
+      </div>
     </div>
     <div class="card card-default">
       <div class="card-header"><span>Model #</span><span v-text="model.id"></span></div>
@@ -208,6 +210,7 @@ export default class extends Vue {
 
   @Watch("$route.params", { immediate: true })
   private reload() {
+    this.notFound = false;
     const modelId = this.$route.params.id;
     this.scenemodelService.getModelById(modelId).then((d) => (this.model = d)).catch(error => this.notFound = true);
     this.scenemodelService.getPositionsById(modelId).then((data) => (this.modelPositions = data));

@@ -1,6 +1,12 @@
 <template>
-  <div v-if="author">
-    <div class="well">
+  <div>
+    <div class="card card-default" v-if="notFound">
+      <div class="alert alert-danger" role="alert">
+        The requested author was not found
+      </div>
+    </div>
+
+    <div class="well" v-if="author">
       <div class="card card-default">
         <div class="card-header"><span>Author #</span><span v-text="author.id"></span></div>
         <div class="card-body">
@@ -30,7 +36,7 @@
         </div>
       </div>
     </div>
-    <div class="well py-5">
+    <div class="well py-5" v-if="author">
       <div class="card card-default">
         <div class="card-header">
           <span>Models created by {{author.name}}</span>
@@ -63,6 +69,7 @@ export default class extends Vue {
   protected author: AuthorInfo = null;
   protected models: any[] = [];
   protected cantWrite = true;
+  private notFound = false;
   @Inject('AuthorService')
   private authorService!: AuthorService;
   @Inject('ModelService')
@@ -75,9 +82,10 @@ export default class extends Vue {
   }
 
   getAuthor() {
+    this.notFound = false;
     this.authorService.get(this.$route.params.id).then((data) => {
       this.author = data;
-    });
+    }).catch(error => this.notFound = true);
   }
 
   getAuthorModels() {

@@ -1,7 +1,9 @@
 <template>
   <div class="well">
     <div class="card card-default" v-if="notFound">
-      NOT FOUND
+      <div class="alert alert-danger" role="alert">
+        The requested object was not found
+      </div>
     </div>
     <div class="card card-default" v-if="object.properties">
       <div class="card-header"><h1 v-text="object.properties.title">Object</h1></div>
@@ -148,6 +150,7 @@ export default class extends Vue {
 
   @Watch("$route.params", { immediate: true, deep: true })
   private reload() {
+    this.notFound = false;
     const objectId = this.$route.params.id;
     this.objectService
       .getById(objectId)
