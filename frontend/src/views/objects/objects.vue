@@ -59,8 +59,8 @@
 
 <script lang="ts">
 import ReloadButton from "../../components/ReloadButton.vue";
-import { ObjectService } from "../../services/ObjectService";
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { FGObject, ObjectService } from "../../services/ObjectService";
+import { Component, Inject, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -70,7 +70,10 @@ import { Component, Vue, Watch } from "vue-property-decorator";
 export default class extends Vue {
   private start = 0;
   private length = 20;
-  private objects = [];
+  private objects: FGObject[] = [];
+
+  @Inject('ObjectService')
+  private objectService!: ObjectService;
 
   created() {
     this.reload();
@@ -88,7 +91,7 @@ export default class extends Vue {
 
   @Watch("$route.params", { immediate: true, deep: true })
   reload() {
-    new ObjectService("")
+    this.objectService
       .getAll(this.start, this.length)
       .then((data) => {
         this.objects = data;

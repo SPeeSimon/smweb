@@ -2,9 +2,12 @@ export class ModelgroupService {
   constructor(private baseUrl: string) {}
 
   public getAll(): Promise<ModelGroup[]> {
-    const url = "scenemodels/modelgroups/index.json";
-    // const url = this.baseUrl + "/modelgroups/";
+    const url = `${this.baseUrl}/modelgroups/`;
     return fetch(url).then(d => d.json());
+  }
+
+  public getById(id: number): Promise<ModelGroup> {
+    return fetch(`${this.baseUrl}/modelgroups/$id`).then(d => d.json());
   }
 }
 

@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
+import { Component, Inject, Vue, Watch } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { AuthorInfo, AuthorService } from "../../services/AuthorService";
 import { ModelService } from "../../services/ModelService";
@@ -63,6 +63,10 @@ export default class extends Vue {
   protected author: AuthorInfo = null;
   protected models: any[] = [];
   protected cantWrite = true;
+  @Inject('AuthorService')
+  private authorService!: AuthorService;
+  @Inject('ModelService')
+  private modelService!: ModelService;
 
   @Watch("$route.params", { immediate: true, deep: true })
   public reload() {
@@ -71,15 +75,14 @@ export default class extends Vue {
   }
 
   getAuthor() {
-    new AuthorService("").get(this.$route.params.id).then((data) => {
+    this.authorService.get(this.$route.params.id).then((data) => {
       this.author = data;
     });
   }
 
   getAuthorModels() {
     // TODO add pagination for models
-    new ModelService("")
-      .getByAuthor(this.$route.params.id)
+    this.modelService.getByAuthor(this.$route.params.id)
       .then((data) => {
         this.models = Array.from(data);
       })

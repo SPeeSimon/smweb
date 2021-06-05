@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { AuthorService } from "../../services/AuthorService";
 import { ModelgroupService } from "../../services/ModelgroupService";
@@ -43,13 +43,16 @@ export default class extends Vue {
   private topAuthor90: any[] = [];
   private authorsLoading = false;
 
+  @Inject('StatsService')
+  private statsService!: StatsService;
+
   created() {
     this.reloadTopAuthors();
   }
 
   reloadTopAuthors() {
-    new StatsService("").getTopAuthors().then((data) => this.topAuthor = data);
-    new StatsService("").getTopAuthors90().then((data) => this.topAuthor90 = data);
+    this.statsService.getTopAuthors().then((data) => this.topAuthor = data);
+    this.statsService.getTopAuthors90().then((data) => this.topAuthor90 = data);
   }
 
   reload() {

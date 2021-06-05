@@ -1,6 +1,6 @@
 <template>
   <div class="well">
-    <div class="card card-default">
+    <div class="card card-default" v-if="object.properties">
       <div class="card-header"><h1 v-text="object.properties.title">Object</h1></div>
       <div class="card-body">
         <div class="row py-5">
@@ -118,7 +118,7 @@
 <script lang="ts">
 import ReloadButton from "../../components/ReloadButton.vue";
 import { ObjectService } from "../../services/ObjectService";
-import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import { Component, Inject, Prop, Vue, Watch } from "vue-property-decorator";
 
 @Component({
   components: {
@@ -130,6 +130,9 @@ export default class extends Vue {
   private object: any = {};
   // private position;
   private cantWrite = true;
+
+  @Inject('ObjectService')
+  private objectService!: ObjectService;
 
   public created() {
     // watch the params of the route to fetch the data again
@@ -143,8 +146,7 @@ export default class extends Vue {
   @Watch("$route.params", { immediate: true, deep: true })
   private reload() {
     const objectId = this.$route.params.id;
-    const objectService = new ObjectService("");
-    objectService
+    this.objectService
       .getById(objectId)
       .then((d) => {
         console.log("object", d);
@@ -197,14 +199,15 @@ export default class extends Vue {
 
   private thumbnail() {
     if (this.object) {
-      return new ObjectService("").getThumbUrl(this.object.id);
+      return this.objectService.getThumbUrl(this.object.id);
     }
   }
 
   private fallbackToDefaultThumbImageUrl(event: Event) {
-    event.target.src =
+    const target = event.target as HTMLImageElement;
+    target.src =
       "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktY2FyZC1pbWFnZSIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNNi4wMDIgNS41YTEuNSAxLjUgMCAxIDEtMyAwIDEuNSAxLjUgMCAwIDEgMyAweiIvPgogIDxwYXRoIGQ9Ik0xLjUgMkExLjUgMS41IDAgMCAwIDAgMy41djlBMS41IDEuNSAwIDAgMCAxLjUgMTRoMTNhMS41IDEuNSAwIDAgMCAxLjUtMS41di05QTEuNSAxLjUgMCAwIDAgMTQuNSAyaC0xM3ptMTMgMWEuNS41IDAgMCAxIC41LjV2NmwtMy43NzUtMS45NDdhLjUuNSAwIDAgMC0uNTc3LjA5M2wtMy43MSAzLjcxLTIuNjYtMS43NzJhLjUuNSAwIDAgMC0uNjMuMDYyTDEuMDAyIDEydi41NEEuNTA1LjUwNSAwIDAgMSAxIDEyLjV2LTlhLjUuNSAwIDAgMSAuNS0uNWgxM3oiLz4KPC9zdmc+";
-    event.target.style.opacity = 0.2;
+    target.style.opacity = '0.2';
   }
   
 }

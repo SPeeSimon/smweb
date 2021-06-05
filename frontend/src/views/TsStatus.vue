@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../components/ReloadButton.vue";
 import { TerrasyncContainer, TerrasyncData, TerrasyncRoot, TerrasyncService } from "../services/TerrasyncService";
 
@@ -49,6 +49,9 @@ export default class extends Vue {
   private dataItems: string[] = [];
   private error = null;
 
+  @Inject()
+  private terrasyncService!: TerrasyncService;
+
   private created() {
     this.fetchData();
   }
@@ -58,8 +61,7 @@ export default class extends Vue {
     this.loading = true;
     this.dataItems = [];
 
-    new TerrasyncService("")
-      .getStatus()
+    this.terrasyncService.getStatus()
       .then((json) => {
         this.mirrors = json.sort((a, b) => a.url.localeCompare(b.url));
         this.dataItems = this.prepareHashes(this.mirrors);

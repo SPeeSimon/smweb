@@ -26,44 +26,47 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { StatsService } from "../../services/StatsService";
 
-export default {
-  components: { ReloadButton },
+@Component({
+  components: {
+    ReloadButton,
+  },
+})
+export default class extends Vue {
+  private numObjects = 0;
+  private numModels = 0;
+  private numAuthors = 0;
+  private numPending = 0;
+  private numElev = 0;
+  private statsLoading = false;
+
+  @Inject("StatsService")
+  private statsService!: StatsService;
+
   created() {
     this.reloadStats();
-  },
-  data() {
-    return {
-      params: 0,
-      numObjects: 0,
-      numModels: 0,
-      numAuthors: 0,
-      numPending: 0,
-      numElev: 0,
-      statsLoading: false,
-    };
-  },
-  methods: {
-    reloadStats() {
-      this.statsLoading = true;
-      new StatsService("")
-        .getTotals()
-        .then((data) => {
-          this.numObjects = data.objects || 0;
-          this.numModels = data.models || 0;
-          this.numAuthors = data.authors || 0;
-          this.numPending = data.pending || 0;
-          this.numElev = data.elev || 0;
-        })
-        .finally(() => {
-          this.statsLoading = false;
-        });
-    },
-  },
-};
+  }
+
+  reloadStats() {
+    this.statsLoading = true;
+    this.statsService
+      .getTotals()
+      .then((data) => {
+        this.numObjects = data.objects || 0;
+        this.numModels = data.models || 0;
+        this.numAuthors = data.authors || 0;
+        this.numPending = data.pending || 0;
+        this.numElev = data.elev || 0;
+      })
+      .finally(() => {
+        this.statsLoading = false;
+      });
+  }
+}
 </script>
 
 <style>

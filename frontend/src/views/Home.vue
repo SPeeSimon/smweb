@@ -42,9 +42,9 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../components/ReloadButton.vue";
-import { ModelService } from "../services/ModelService";
+import { FGModel, ModelService } from "../services/ModelService";
 import ModelShort from "./model/model-short.vue";
 
 @Component({
@@ -54,17 +54,20 @@ import ModelShort from "./model/model-short.vue";
   },
 })
 export default class Home extends Vue {
-  private models = [];
+  private models: FGModel[] = [];
   private modelsLoading = false;
+  @Inject('ModelService')
+  private modelService!: ModelService;
 
   public created() {
     this.reload();
+    console.log(process.env.VUE_APP_LOCATION)
+    console.log(process.env.NODE_ENV)
   }
 
   public reload() {
     this.modelsLoading = true;
-    new ModelService("")
-      .getLatest(6)
+    this.modelService.getLatest(6)
       .then((data) => {
         if (!(data && Array.isArray(data))) return;
         this.models = data;

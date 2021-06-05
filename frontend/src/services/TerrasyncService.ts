@@ -2,10 +2,9 @@ export class TerrasyncService {
   constructor(private baseUrl: string) {}
 
   getStatus(): Promise<TerrasyncRoot[]> {
-    const url = this.baseUrl + "/status";
-    // return fetch(url);
-    return fetch("tsstatus.json")
-          .then(d=>d.json())
+    const url = `${this.baseUrl}/status`;
+    return fetch(url)
+          .then(d=>d.json());
   }
 }
 

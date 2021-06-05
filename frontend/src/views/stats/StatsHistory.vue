@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { HistoryItem, StatsService } from "../../services/StatsService";
 import { Chart, ChartData, ChartItem, Legend, LinearScale, LineController, LineElement, PointElement, registerables, TimeSeriesScale, Title, Tooltip } from "chart.js";
@@ -25,6 +25,9 @@ export default class extends Vue {
   protected historyLoading = false;
   private myChart: Chart | undefined = undefined;
   private chartData: ChartData | undefined;
+
+  @Inject('StatsService')
+  private statsService!: StatsService;
 
   constructor() {
     super();
@@ -148,8 +151,7 @@ export default class extends Vue {
       this.myChart = undefined;
     }
 
-    new StatsService("")
-      .getAllStats()
+    this.statsService.getAllStats()
       .then((data) => this.convertToChartdata(data))
       .then((data) => {
         this.chartData = data;

@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { AuthorService } from "../../services/AuthorService";
 
@@ -55,12 +55,14 @@ export default class extends Vue {
   protected authors: any[] = [];
   protected start = 0;
   protected length = 20;
+  @Inject('AuthorService')
+  private authorService!: AuthorService;
 
   created() {
     this.reload();
   }
   public reload() {
-    new AuthorService("").getAll(this.start, this.length).then((data) => {
+    this.authorService.getAll(this.start, this.length).then((data) => {
       if (data && Array.isArray(data)) {
         this.authors = Array.from(data);
       }

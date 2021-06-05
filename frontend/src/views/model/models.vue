@@ -31,7 +31,7 @@
 <script lang="ts">
 import { ModelService } from "../../services/ModelService";
 import { ModelGroup, ModelgroupService } from "../../services/ModelgroupService";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue } from "vue-property-decorator";
 import ModelShort from "./model-short.vue";
 import ReloadButton from "../../components/ReloadButton.vue";
 
@@ -50,9 +50,13 @@ export default class extends Vue {
   private models: any[] = [];
   private modelsLoading = false;
 
+  @Inject('ModelService')
+  private modelService!: ModelService;
+  @Inject('ModelgroupService')
+  private modelgroupService!: ModelgroupService;
+
   private created() {
-    new ModelgroupService("")
-      .getAll()
+    this.modelgroupService.getAll()
       .then((d) => (this.modelgroups = d))
       .then(() => this.selectGroup(this.modelgroups[0]))
       .then(() => this.reloadModels(this.modelgroups[0].id, this.start, this.length));
@@ -75,8 +79,7 @@ export default class extends Vue {
   private reloadModels(modelGroup: any, start: number, length: number) {
     this.modelsLoading = true;
 
-    new ModelService("")
-      .getByModelgroup(modelGroup, start, length)
+    this.modelService.getByModelgroup(modelGroup, start, length)
       .then((data) => {
         if (!(data && Array.isArray(data))) return;
         this.models = data;
@@ -94,8 +97,7 @@ export default class extends Vue {
   private reload() {
     this.modelGroupsLoading = true;
 
-    new ModelgroupService("")
-      .getAll()
+    this.modelgroupService.getAll()
       .then((data) => {
         this.modelgroups = data;
         if (data.length > 0) {

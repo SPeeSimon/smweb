@@ -1,25 +1,8 @@
 import { Feature, FeatureCollection, Point } from "geojson";
+import { GeoJsonUtils } from "./GeoJsonUtils";
 
 export class ObjectService {
   constructor(private baseUrl: string) {}
-
-  private isFeatureCollection(data: any): data is FeatureCollection {
-    return data && data.type === "FeatureCollection" && Array.isArray(data.features);
-  }
-
-  private isPoint(data: any): data is Point {
-    return data && data.type === "Point" && Array.isArray(data.coordinates);
-  }
-
-  private isGeoPoint(data: any): data is FeatureCollection<Point, ObjectProperties> {
-    if (this.isFeatureCollection(data)) {
-      if (data.features.length > 0 && data.features.reduce((prev, cur) => prev && this.isPoint(cur.geometry), true)) {
-        // all features are Points
-        return true;
-      }
-    }
-    return false;
-  }
 
   private createFGObject(f: Feature<Point, ObjectProperties>): FGObject {
     return {
@@ -39,25 +22,32 @@ export class ObjectService {
   }
 
   public getAll(start = 0, length = 20): Promise<FGObject[]> {
-    let url = this.baseUrl + "/objects/";
+    let url = `${this.baseUrl}/objects/list/`;
     if (length) url += Number(length) + "/";
     if (start) url += Number(start);
     console.log("fetching", url);
-    return fetch("scenemodels/objects/objects.json")
+
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+//     data : data ? JSON.stringify(data) : null,
+
+
+    return fetch(url)
       .then((d) => d.json())
       .then((data) => {
         // geojson FeatureCollection
-        if (this.isGeoPoint(data)) {
+        if (GeoJsonUtils.isGeoPoint(data)) {
           return data.features.map((f) => this.createFGObject(f));
         }
         return [];
       });
+      // /objects/:limit/:offset?
+      // /objects/ ?e=11&w=11&n=11&s=11
   }
 
   public getById(id: string | number): Promise<any> {
-    const url = this.baseUrl + "/object/" + id;
-    console.log("fetching", url);
-    return fetch("scenemodels/objects/object.json").then((d) => d.json());
+    const url = `${this.baseUrl}/object/${id}`;
+    return fetch(url).then((d) => d.json());
   }
 
   public getThumbUrl(id: string | number): string {
@@ -93,3 +83,53 @@ export interface FGObject {
   longitude: number;
   latitude: number;
 }
+
+
+// /signs/ (?e=11&w=11&n=11&s=11)
+// { 
+//   'type': 'FeatureCollection', 
+//   'features': [
+//     {
+//       'type': 'Feature',
+//       'id': row['si_id'],
+//       'geometry':{
+//         'type': 'Point','coordinates': [row['ob_lon'], row['ob_lat']]
+//       },
+//       'properties': {
+//         'id': row['si_id'],
+//         'heading': row['si_heading'],
+//         'definition': row['si_definition'],
+//         'gndelev': row['si_gndelev'],
+//       }
+//     }
+//   ]
+// }
+
+// /navaids/within/ (?e=11&w=11&n=11&s=11)
+// { 
+//   'type': 'FeatureCollection', 
+//   'features': [
+//     {
+//       'type': 'Feature',
+//       'id': row['si_id'],
+//       'geometry':{
+//         'type': 'Point','coordinates': [row['na_lon'], row['na_lat']]
+//       },
+//       'properties': {
+//         'id': row['na_id'],
+//         'type': row['na_type'],
+//         'elevation': row['na_elevation'],
+//         'frequency': row['na_frequency'],
+//         'range': row['na_range'],
+//         'multiuse': row['na_multiuse'],
+//         'ident': row['na_ident'],
+//         'name': row['na_name'],
+//         'airport': row['na_airport_id'],
+//         'runway': row['na_runway'],
+//       }
+//     }
+//   ]
+// }
+
+// https://strapi.io/documentation/developer-docs/latest/developer-resources/content-api/content-api.html#api-parameters
+// "https://github.com/simov/grant"
