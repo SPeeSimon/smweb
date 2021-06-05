@@ -9,6 +9,7 @@ export class StatsService {
         if (response.ok) {
           return response.json();
         }
+        throw new Error(response.statusText);
       })
       .then((data) => {
         return data.modelsbyauthor || [];
@@ -21,6 +22,7 @@ export class StatsService {
         if (response.ok) {
           return response.json();
         }
+        throw new Error(response.statusText);
       })
       .then((data) => {
         return data.modelsbyauthor || [];
@@ -33,12 +35,12 @@ export class StatsService {
         if (response.ok) {
           return response.json();
         }
+        throw new Error(response.statusText);
       })
       .then((data) => {
         return data.modelsbyauthor || [];
       });
   }
-
 
   public getTotals(): Promise<ScenemodelStats> {
     return fetch(`${this.baseUrl}/stats/`)
@@ -46,6 +48,7 @@ export class StatsService {
         if (response.ok) {
           return response.json();
         }
+        throw new Error(response.statusText);
       })
       .then((data) => {
         const stats = (data || { stats: {} }).stats || {};
@@ -68,13 +71,14 @@ export class StatsService {
         if (response.ok) {
           return response.json();
         }
+        throw new Error(response.statusText);
       })
       .then((data) => {
         const stats = (data || { statistics: {} }).statistics || [];
-        return Array.from(stats)
+        return Array.from(stats);
       })
-      .then(stats => {
-        return stats.map(item => Object.assign(item, {date: new Date(item.date)}) as HistoryItem);
+      .then((stats) => {
+        return stats.map((item) => Object.assign(item, { date: new Date(item.date) }) as HistoryItem);
       });
   }
 }
@@ -97,7 +101,7 @@ export interface HistoryItem {
 }
 
 // /stats/
-// { 
+// {
 //   'stats': {
 //     'objects': row.objects || 0,
 //     'models':  row.models || 0,
@@ -128,7 +132,6 @@ export interface HistoryItem {
 //     'count': Number(row.count),
 //   }
 // ] }
-
 
 // /stats/models/bycountry
 // { modelsbycountry: [

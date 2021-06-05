@@ -5,11 +5,14 @@ export class ScenemodelsService {
   constructor(private baseUrl: string) {}
 
   public getModelById(id: number | string): Promise<FGModel> {
-    return (
-        fetch(`${this.baseUrl}/model/${id}`)
-        .then((response) => response.json())
-        .then(this.convertToModelContent)
-    );
+    return fetch(`${this.baseUrl}/model/${id}`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then(this.convertToModelContent);
 
     // $.getJSON( this.params.baseUrl + "scenemodels/model/" + this.id(), function( data ) {
     //   if( !data ) return;
@@ -38,30 +41,28 @@ export class ScenemodelsService {
   }
 
   public getPositionsById(id: number | string): Promise<ModelPosition[]> {
-    return (
-        fetch(`${this.baseUrl}/model/${id}/positions`)
-        .then((response) => response.json())
-        .then((data) => {
-          // geojson FeatureCollection
-          if (GeoJsonUtils.isGeoPoint(data)) {
-            return data;
-          }
-        })
-        .then((data) => {
-          // map to geojson Feature/Point
-          if (data)
-            return data.features.map(
-              (f) =>
-                new ModelPosition(
-                  f.geometry.coordinates[1],
-                  f.geometry.coordinates[0],
-                  f.properties.country,
-                  f.properties.gndelev
-                )
-            );
-          return [];
-        })
-    );
+    return fetch(`${this.baseUrl}/model/${id}/positions`)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then((data) => {
+        // geojson FeatureCollection
+        if (GeoJsonUtils.isGeoPoint(data)) {
+          return data;
+        }
+      })
+      .then((data) => {
+        // map to geojson Feature/Point
+        if (data)
+          return data.features.map(
+            (f) =>
+              new ModelPosition(f.geometry.coordinates[1], f.geometry.coordinates[0], f.properties.country, f.properties.gndelev)
+          );
+        return [];
+      });
   }
 }
 

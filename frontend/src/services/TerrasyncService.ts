@@ -3,42 +3,45 @@ export class TerrasyncService {
 
   getStatus(): Promise<TerrasyncRoot[]> {
     const url = `${this.baseUrl}/status`;
-    return fetch(url)
-          .then(d=>d.json());
+    return fetch(url).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    });
   }
 }
 
-
 export interface TerrasyncData {
-    Details: string;
-    Roads: string;
-    Buildings: string;
-    Pylons: string;
-    Airports: string;
-    Models: string;
-    Objects: string;
-    Terrain: string;
+  Details: string;
+  Roads: string;
+  Buildings: string;
+  Pylons: string;
+  Airports: string;
+  Models: string;
+  Objects: string;
+  Terrain: string;
 }
 
 export interface TerrasyncContainer {
-    version: string;
-    path: string;
-    d: TerrasyncData;
-    time: string;
+  version: string;
+  path: string;
+  d: TerrasyncData;
+  time: string;
 }
 
 export interface TerrasyncProvider {
-    flags: string;
-    service: string;
-    regexp: string;
-    replacement: string;
-    order: number;
-    preference: number;
-    url: string;
+  flags: string;
+  service: string;
+  regexp: string;
+  replacement: string;
+  order: number;
+  preference: number;
+  url: string;
 }
 
 export interface TerrasyncRoot {
-    url: string;
-    dirindex: TerrasyncContainer;
-    dns: TerrasyncProvider;
+  url: string;
+  dirindex: TerrasyncContainer;
+  dns: TerrasyncProvider;
 }

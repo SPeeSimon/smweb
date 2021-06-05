@@ -3,16 +3,24 @@ import { GeoJsonUtils } from "./GeoJsonUtils";
 export class ModelService {
   constructor(private baseUrl: string) {}
 
-  public getByModelgroup(modelgroup: number, limit?: number|string, offset?: number|string): Promise<FGModel[]> {
+  public getByModelgroup(modelgroup: number, limit?: number | string, offset?: number | string): Promise<FGModel[]> {
     const url = `${this.baseUrl}/models/bymg/$modelgroup/$limit/$offset`;
-    return fetch("scenemodels/models/list/20/index.json")
-          .then(d => d.json());
+    return fetch("scenemodels/models/list/20/index.json").then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    });
   }
-
 
   public getLatest(num: number): Promise<FGModel[]> {
     return fetch(`${this.baseUrl}/models/list/${num}`) // /models/list/:limit/:offset?
-    .then(d => d.json());
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      });
   }
 
   public getThumbUrl(id: number | string): string {
@@ -23,7 +31,12 @@ export class ModelService {
     let url = `${this.baseUrl}/models/search/byauthor/${author}`;
     if (length) url += length;
     if (start) url += "/" + start;
-    return fetch(url).then(d => d.json());
+    return fetch(url).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    });
   }
 
   /**
@@ -88,18 +101,17 @@ export class ModelService {
   // }
 
   // /navdb/airport/:icao
-//   { 
-//     'runwaysGeometry': { 
-//         'type': 'GeometryCollection', 
-//         'geometries': [] 
-//     },
-//     'procedures': [] 
-// }
+  //   {
+  //     'runwaysGeometry': {
+  //         'type': 'GeometryCollection',
+  //         'geometries': []
+  //     },
+  //     'procedures': []
+  // }
 
-// /submission
-// /submission/:id
+  // /submission
+  // /submission/:id
 }
-
 
 export interface FGModel {
   id: number;

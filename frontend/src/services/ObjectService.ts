@@ -29,11 +29,15 @@ export class ObjectService {
 
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-//     data : data ? JSON.stringify(data) : null,
-
+    //     data : data ? JSON.stringify(data) : null,
 
     return fetch(url)
-      .then((d) => d.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
       .then((data) => {
         // geojson FeatureCollection
         if (GeoJsonUtils.isGeoPoint(data)) {
@@ -41,13 +45,18 @@ export class ObjectService {
         }
         return [];
       });
-      // /objects/:limit/:offset?
-      // /objects/ ?e=11&w=11&n=11&s=11
+    // /objects/:limit/:offset?
+    // /objects/ ?e=11&w=11&n=11&s=11
   }
 
   public getById(id: string | number): Promise<any> {
     const url = `${this.baseUrl}/object/${id}`;
-    return fetch(url).then((d) => d.json());
+    return fetch(url).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    });
   }
 
   public getThumbUrl(id: string | number): string {
@@ -84,10 +93,9 @@ export interface FGObject {
   latitude: number;
 }
 
-
 // /signs/ (?e=11&w=11&n=11&s=11)
-// { 
-//   'type': 'FeatureCollection', 
+// {
+//   'type': 'FeatureCollection',
 //   'features': [
 //     {
 //       'type': 'Feature',
@@ -106,8 +114,8 @@ export interface FGObject {
 // }
 
 // /navaids/within/ (?e=11&w=11&n=11&s=11)
-// { 
-//   'type': 'FeatureCollection', 
+// {
+//   'type': 'FeatureCollection',
 //   'features': [
 //     {
 //       'type': 'Feature',

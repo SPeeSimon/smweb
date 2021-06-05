@@ -4,10 +4,13 @@ export class AuthorService {
   }
 
   get(id: number | string): Promise<AuthorInfo> {
-    return (
-      fetch(`${this.baseUrl}/author/${id}`) // /author/:id
-        .then((d) => d.json())
-    );
+    return fetch(`${this.baseUrl}/author/${id}`) // /author/:id
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      });
   }
 
   getAll(start = 0, length = 20): Promise<AuthorInfo[]> {
@@ -15,10 +18,12 @@ export class AuthorService {
     if (length) url += Number(length) + "/";
     if (start) url += Number(start);
     // /authors/list/:limit/:offset?
-    return (
-      fetch(url)
-        .then((d) => d.json())
-    );
+    return fetch(url).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    });
   }
 }
 

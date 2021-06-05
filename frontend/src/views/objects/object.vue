@@ -1,5 +1,8 @@
 <template>
   <div class="well">
+    <div class="card card-default" v-if="notFound">
+      NOT FOUND
+    </div>
     <div class="card card-default" v-if="object.properties">
       <div class="card-header"><h1 v-text="object.properties.title">Object</h1></div>
       <div class="card-body">
@@ -128,8 +131,8 @@ import { Component, Inject, Prop, Vue, Watch } from "vue-property-decorator";
 export default class extends Vue {
   private country = {};
   private object: any = {};
-  // private position;
   private cantWrite = true;
+  private notFound = false;
 
   @Inject('ObjectService')
   private objectService!: ObjectService;
@@ -149,11 +152,13 @@ export default class extends Vue {
     this.objectService
       .getById(objectId)
       .then((d) => {
-        console.log("object", d);
         return d;
       })
       .then((d) => {
         this.object = d;
+      })
+      .catch(error => {
+        this.notFound = true
       });
   }
 
