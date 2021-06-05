@@ -18,7 +18,7 @@
           </td>
           <td v-text="author.notes"></td>
           <td class="text-right">
-            <span class="badge" v-text="author.models">0</span>
+            <span class="badge bg-secondary" v-text="author.models">0</span>
           </td>
         </tr>
       </tbody>

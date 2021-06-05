@@ -14,7 +14,7 @@ export class AuthorService {
   }
 
   getAll(start = 0, length = 20): Promise<AuthorInfo[]> {
-    let url = this.baseUrl + "/authors/list/";
+    let url = this.baseUrl + "/author/list/";
     if (length) url += Number(length) + "/";
     if (start) url += Number(start);
     // /authors/list/:limit/:offset?
@@ -36,6 +36,6 @@ export interface Author {
 export interface AuthorInfo {
   id: number;
   name: string;
-  notes: string;
+  notes?: string;
   models: string;
 }

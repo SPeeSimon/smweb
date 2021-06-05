@@ -5,6 +5,7 @@ import { CRUDRestService } from "./services/CRUDRestService";
 import { AuthorService } from "./services/AuthorService";
 import { ModelgroupService } from "./services/ModelgroupService";
 import { ModelService } from "./services/ModelService";
+import { NewsService } from "./services/NewsService";
 import { ObjectService } from "./services/ObjectService";
 import { ScenemodelsService } from "./services/ScenemodelsService";
 import { StatsService } from "./services/StatsService";
@@ -18,6 +19,7 @@ const ServiceProviders = {
   CRUDRestService: new CRUDRestService(process.env.VUE_APP_API_LOCATION),
   ModelgroupService: new ModelgroupService(process.env.VUE_APP_API_LOCATION),
   ModelService: new ModelService(process.env.VUE_APP_API_LOCATION),
+  NewsService: new NewsService(process.env.VUE_APP_API_LOCATION+ '/..'),
   ObjectService: new ObjectService(process.env.VUE_APP_API_LOCATION),
   ScenemodelsService: new ScenemodelsService(process.env.VUE_APP_API_LOCATION),
   StatsService: new StatsService(process.env.VUE_APP_API_LOCATION),
