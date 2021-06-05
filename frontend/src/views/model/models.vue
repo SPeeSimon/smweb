@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-2 col-sm-12">
+    <div class="col-md-2 col-sm-12 g-0">
       <ul class="nav nav-pills flex-column" :class="{ loading: modelGroupsLoading }">
         <li
           class="nav-item"
@@ -90,6 +90,7 @@ export default class extends Vue {
       });
   }
 
+  // @Watch("$route.params", { immediate: true, deep: true })
   private reload() {
     this.modelGroupsLoading = true;
 

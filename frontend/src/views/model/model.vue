@@ -37,7 +37,10 @@
               </div>
               <div class="input-group">
                 <span class="input-group-text" style="width: 8em">Type</span>
-                <input type="text" class="form-control" placeholder="fixme" :value="model.type" :readonly="cantWrite" />
+                <input type="text" class="form-control" placeholder="Fixme" :value="model.type" :readonly="cantWrite" />
+                <router-link class="btn btn-secondary" :to="{ name: 'models', query: { type: model.type } }">
+                  View <i class="bi bi-chevron-right"></i>
+                </router-link>
               </div>
               <div class="input-group">
                 <span class="input-group-text" style="width: 8em">Author</span>
@@ -80,10 +83,10 @@
             </li>
             <li class="nav-item">
               <a
-                class="w-100 btn btn-lg btn-outline-primary"
+                class="w-100 nav-link"
                 :class="{ active: showTab === '3d' }"
                 href="#"
-                @click="showTab = '3d'"
+                @click="showTab = '3d'; showed3D=true;"
                 >3D View</a
               >
             </li>
@@ -137,7 +140,7 @@
               </tbody>
             </table>
           </div>
-          <div class="col-md-12 py-5" v-if="showTab === '3d'">
+          <div class="col-md-12 py-5" v-if="showed3D" v-show="showTab === '3d'">
             <div class="row">
               <div class="col-md-11">
                 <h2>3D View of {{ model.name }}</h2>
@@ -177,6 +180,7 @@ export default class extends Vue {
   private modelPositions: ModelPosition[];
   private cantWrite = true;
   private showTab = "files";
+  private showed3D = false;
   private scenemodelService = new ScenemodelsService("");
 
   public created() {
@@ -221,5 +225,16 @@ export default class extends Vue {
       "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjbGFzcz0iYmkgYmktY2FyZC1pbWFnZSIgdmlld0JveD0iMCAwIDE2IDE2Ij4KICA8cGF0aCBkPSJNNi4wMDIgNS41YTEuNSAxLjUgMCAxIDEtMyAwIDEuNSAxLjUgMCAwIDEgMyAweiIvPgogIDxwYXRoIGQ9Ik0xLjUgMkExLjUgMS41IDAgMCAwIDAgMy41djlBMS41IDEuNSAwIDAgMCAxLjUgMTRoMTNhMS41IDEuNSAwIDAgMCAxLjUtMS41di05QTEuNSAxLjUgMCAwIDAgMTQuNSAyaC0xM3ptMTMgMWEuNS41IDAgMCAxIC41LjV2NmwtMy43NzUtMS45NDdhLjUuNSAwIDAgMC0uNTc3LjA5M2wtMy43MSAzLjcxLTIuNjYtMS43NzJhLjUuNSAwIDAgMC0uNjMuMDYyTDEuMDAyIDEydi41NEEuNTA1LjUwNSAwIDAgMSAxIDEyLjV2LTlhLjUuNSAwIDAgMSAuNS0uNWgxM3oiLz4KPC9zdmc+";
     event.target.style.opacity = 0.2;
   }
+
+  private downloadUrl(){
+    return ''
+    // <a href="app.php?c=Models&amp;a=getPackage&amp;id=<?php echo $id; ?>">Download model</a>
+  }
+
 }
 </script>
+<style scoped>
+img.fg-model-thumb {
+  max-width: 100%;
+}
+</style>

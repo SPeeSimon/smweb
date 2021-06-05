@@ -63,7 +63,10 @@
               <div class="input-group">
                 <span class="input-group-text col-md-3">Group</span>
                 <input type="text" class="form-control" placeholder="fixme" :value="object.properties.shared" :readonly="true" />
-                {{ object.groupId }}
+                <router-link class="btn btn-secondary" :to="{ name: 'models', query: { type: object.properties.shared } }">
+                  View <span class="d-none d-lg-inline">all models for group</span> <i class="bi bi-chevron-right"></i>
+                </router-link>
+
                 <!-- <?php echo "<a href=\"app.php?c=Objects&amp;a=search&amp;group=".$object->getGroupId()."\">".$group->getName()."</a>"; ?> -->
               </div>
               <div class="input-group">

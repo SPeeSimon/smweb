@@ -3,7 +3,7 @@
     <div class="card h-100">
       <router-link :to="{ name: 'model', params: { id: model.id } }" :alt="model.name">
         <img
-          class="card-img-top img-fluid img-thumbnail w-100 h-100"
+          class="card-img-top img-fluid fg-model-thumb img-thumbnail w-100 h-100"
           :src="getThumbUrl"
           :alt="model.name"
           :title="model.name"
@@ -57,7 +57,7 @@ export default class ModelShort extends Vue {
 
 <style>
 .panel-model-short img.card-img-top {
-  height: 30vh!important;
+  height: 240px!important;
   object-fit: contain;
 }
 </style>
