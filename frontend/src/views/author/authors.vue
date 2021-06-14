@@ -30,7 +30,7 @@
           <a class="page-link" href="#" aria-label="Previous" @click.prevent="prev" alt="Previous Page" title="Previous Page">
             Previous</a>
         </li>
-        <li class="page-item">
+        <li class="page-item" :class="{disabled: authors.length < length}">
           <a class="page-link" href="#" aria-label="Next" @click.prevent="next" alt="Next Page" title="Next Page">
             Next
           </a>

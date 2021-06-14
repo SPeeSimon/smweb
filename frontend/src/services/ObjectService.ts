@@ -49,8 +49,63 @@ export class ObjectService {
     // /objects/ ?e=11&w=11&n=11&s=11
   }
 
+  public search(options, start = 0, length = 20): Promise<FGObject[]> {
+    const url = new URL(`${this.baseUrl}/objects/search/`);
+    url.searchParams.append("offset", start);
+    url.searchParams.append("limit", length);
+
+    const supportedSearchParams = [
+      "author",
+      "country",
+      "description",
+      "elevation",
+      "elevoffset",
+      "heading",
+      "lat",
+      "lon",
+      "model",
+      "modelname",
+      "modelgroup",
+      "modifiedOn",
+      "modifiedBefore",
+      "modifiedSince",
+      "point",
+      "tile",
+    ];
+
+    Object.keys(options)
+      .filter((key) => supportedSearchParams.indexOf(key) != -1)
+      .filter(key => options[key] != null)
+      .forEach((key) => url.searchParams.append(key, options[key]));
+
+    return fetch(url)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error(response.statusText);
+      })
+      .then((data) => {
+        // geojson FeatureCollection
+        if (GeoJsonUtils.isGeoPoint(data)) {
+          return data.features.map((f) => this.createFGObject(f));
+        }
+        return [];
+      });
+  }
+
   public getById(id: string | number): Promise<any> {
-    const url = `${this.baseUrl}/object/${id}`;
+    const url = `${this.baseUrl}/objects/${id}`;
+    return fetch(url).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    });
+  }
+
+  public getCountries(): Promise<Country> {
+    const url = `${this.baseUrl}/objects/countries`;
     return fetch(url).then((response) => {
       if (response.ok) {
         return response.json();
@@ -61,8 +116,13 @@ export class ObjectService {
 
   public getThumbUrl(id: string | number): string {
     // src="app.php?c=Models&amp;a=thumbnail&amp;id={object.id}"
-    return "";
+    return `${this.baseUrl}/model/${id}/thumb.jpg`;
   }
+}
+
+export interface FGCountr {
+  code: string;
+  name: string;
 }
 
 export interface ObjectProperties {

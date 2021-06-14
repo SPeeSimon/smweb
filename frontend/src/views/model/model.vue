@@ -42,8 +42,8 @@
               </div>
               <div class="input-group">
                 <span class="input-group-text" style="width: 8em">Type</span>
-                <input type="text" class="form-control" placeholder="Fixme" :value="model.type" :readonly="cantWrite" />
-                <router-link class="btn btn-secondary" :to="{ name: 'models', query: { type: model.type } }">
+                <input type="text" class="form-control" placeholder="Fixme" :value="model.modelgroup.name" :readonly="cantWrite" />
+                <router-link class="btn btn-secondary" :to="{ name: 'models', query: { type: model.modelgroup.id } }">
                   View <i class="bi bi-chevron-right"></i>
                 </router-link>
               </div>

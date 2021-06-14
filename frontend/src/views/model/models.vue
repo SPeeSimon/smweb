@@ -9,7 +9,13 @@
           :key="index"
           :class="{ active: selectedModelgroup && group.id === selectedModelgroup.id }"
         >
-          <a class="nav-link" href="#" v-text="group.name" @click.prevent="selectGroup(group)" :class="{ active: selectedModelgroup && group.id === selectedModelgroup.id }"></a>
+          <a
+            class="nav-link"
+            href="#"
+            v-text="group.name"
+            @click.prevent="selectGroup(group)"
+            :class="{ active: selectedModelgroup && group.id === selectedModelgroup.id }"
+          ></a>
         </li>
       </ul>
     </div>
@@ -31,7 +37,7 @@
 <script lang="ts">
 import { ModelService } from "../../services/ModelService";
 import { ModelGroup, ModelgroupService } from "../../services/ModelgroupService";
-import { Component, Inject, Vue } from "vue-property-decorator";
+import { Component, Inject, Vue, Watch } from "vue-property-decorator";
 import ModelShort from "./model-short.vue";
 import ReloadButton from "../../components/ReloadButton.vue";
 
@@ -44,22 +50,19 @@ import ReloadButton from "../../components/ReloadButton.vue";
 export default class extends Vue {
   private modelgroups: ModelGroup[] = [];
   private selectedModelgroup: any = null;
-  private modelGroupsLoading = false;
   private start = 0;
   private length = 20;
   private models: any[] = [];
+  private modelGroupsLoading = false;
   private modelsLoading = false;
 
-  @Inject('ModelService')
+  @Inject("ModelService")
   private modelService!: ModelService;
-  @Inject('ModelgroupService')
+  @Inject("ModelgroupService")
   private modelgroupService!: ModelgroupService;
 
   private created() {
-    this.modelgroupService.getAll()
-      .then((d) => (this.modelgroups = d))
-      .then(() => this.selectGroup(this.modelgroups[0]))
-      .then(() => this.reloadModels(this.modelgroups[0].id, this.start, this.length));
+    this.reload();
   }
 
   private selectAll(a: any, b: any) {
@@ -71,17 +74,25 @@ export default class extends Vue {
   }
 
   private isSelected(modelGroup: any) {
-    if (!modelGroup) return !this.selectedModelgroup;
-    if (!this.selectedModelgroup) return false;
+    if (!modelGroup){ return !this.selectedModelgroup;}
+    if (!this.selectedModelgroup){ return false;}
     return modelGroup.id === this.selectedModelgroup.id;
+  }
+
+  @Watch("selectedModelgroup")
+  private updateSelectedModelgroup() {
+    this.reloadModels(this.selectedModelgroup, this.start, this.length);
   }
 
   private reloadModels(modelGroup: any, start: number, length: number) {
     this.modelsLoading = true;
 
-    this.modelService.getByModelgroup(modelGroup, start, length)
+    this.modelService
+      .search(Object.assign({}, {modelgroup: this.selectedModelgroup.id}, this.$route.query), start, length)
       .then((data) => {
-        if (!(data && Array.isArray(data))) return;
+        if (!(data && Array.isArray(data))) {
+          return;
+        }
         this.models = data;
       })
       .catch((err) => {
@@ -93,16 +104,13 @@ export default class extends Vue {
       });
   }
 
-  // @Watch("$route.params", { immediate: true, deep: true })
-  private reload() {
+  private reloadModelGroups() {
     this.modelGroupsLoading = true;
-
-    this.modelgroupService.getAll()
+    this.modelgroupService
+      .getAll()
       .then((data) => {
         this.modelgroups = data;
-        if (data.length > 0) {
-          this.selectGroup(data[0]);
-        }
+        this.selectedModelgroup = this.modelgroups.find(mg => mg.id == this.$route.query.type) || this.modelgroups[0];
       })
       .catch(function (err) {
         //TODO: notify user
@@ -113,10 +121,9 @@ export default class extends Vue {
       });
   }
 
-  private computed() {
-    var selected = this.selectedModelgroup;
-    if (!selected) return;
-    this.reloadModels(selected.id, this.start, this.length);
+  // @Watch("$route.params", { immediate: true, deep: true })
+  private reload() {
+    this.reloadModelGroups();
   }
 }
 </script>

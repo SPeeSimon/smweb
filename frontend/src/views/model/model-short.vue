@@ -2,7 +2,7 @@
   <div class="col panel-model-short mb-3">
     <div class="card h-100">
       <router-link :to="{ name: 'model', params: { id: model.id } }" :alt="model.name">
-        <img
+        <img loading="lazy"
           class="card-img-top img-fluid fg-model-thumb img-thumbnail w-100 h-100"
           :src="getThumbUrl"
           :alt="model.name"

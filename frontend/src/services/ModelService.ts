@@ -3,9 +3,20 @@ import { GeoJsonUtils } from "./GeoJsonUtils";
 export class ModelService {
   constructor(private baseUrl: string) {}
 
+  private urlWithOptionalLimitOffset(baseUrl: string, limit?: number | string, offset?: number | string) {
+    let url = baseUrl;
+    if (limit) {
+      url += "/" + limit;
+    }
+    if (offset) {
+      url += "/" + offset;
+    }
+    return url;
+  }
+
   public getByModelgroup(modelgroup: number, limit?: number | string, offset?: number | string): Promise<FGModel[]> {
-    const url = `${this.baseUrl}/models/bymg/$modelgroup/$limit/$offset`;
-    return fetch("scenemodels/models/list/20/index.json").then((response) => {
+    const url = this.urlWithOptionalLimitOffset(`${this.baseUrl}/models/bymg/${modelgroup}`, limit, offset);
+    return fetch(url).then((response) => {
       if (response.ok) {
         return response.json();
       }
@@ -28,9 +39,40 @@ export class ModelService {
   }
 
   public getByAuthor(author: number | string, start?: number, length?: number): Promise<any[]> {
-    let url = `${this.baseUrl}/models/search/byauthor/${author}`;
-    if (length) url += length;
-    if (start) url += "/" + start;
+    const url = this.urlWithOptionalLimitOffset(`${this.baseUrl}/models/search/byauthor/${author}`, length, start);
+    return fetch(url).then((response) => {
+      if (response.ok) {
+        return response.json();
+      }
+      throw new Error(response.statusText);
+    });
+  }
+
+  public search(options, offset?: number | string, limit?: number | string): Promise<FGModel[]> {
+    const url = new URL(`${this.baseUrl}/models/search`);
+    url.searchParams.append("offset", offset);
+    url.searchParams.append("limit", limit);
+
+    const supportedSearchParams = [
+      "author",
+      "country",
+      "file",
+      "modifiedOn",
+      "modifiedBefore",
+      "modifiedSince",
+      "modelgroup",
+      "name",
+      "notes",
+      "object",
+      "order",
+      "thumbnail",
+    ];
+
+    Object.keys(options)
+      .filter((key) => supportedSearchParams.indexOf(key) != -1)
+      .filter(key => options[key] != null)
+      .forEach((key) => url.searchParams.append(key, options[key]));
+
     return fetch(url).then((response) => {
       if (response.ok) {
         return response.json();

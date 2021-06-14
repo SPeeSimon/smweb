@@ -67,8 +67,8 @@
               </div>
               <div class="input-group">
                 <span class="input-group-text col-md-3">Group</span>
-                <input type="text" class="form-control" placeholder="fixme" :value="object.properties.shared" :readonly="true" />
-                <router-link class="btn btn-secondary" :to="{ name: 'models', query: { type: object.properties.shared } }">
+                <input type="text" class="form-control" placeholder="fixme" :value="object.properties.modelgroup.name" :readonly="true" />
+                <router-link class="btn btn-secondary" :to="{ name: 'models', query: { type: object.properties.modelgroup.id } }">
                   View <span class="d-none d-lg-inline">all models for group</span> <i class="bi bi-chevron-right"></i>
                 </router-link>
 
@@ -207,7 +207,7 @@ export default class extends Vue {
 
   private thumbnail() {
     if (this.object) {
-      return this.objectService.getThumbUrl(this.object.id);
+      return this.objectService.getThumbUrl(this.object.properties.model_id);
     }
   }
 

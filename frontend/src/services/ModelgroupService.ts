@@ -8,6 +8,8 @@ export class ModelgroupService {
         return response.json();
       }
       throw new Error(response.statusText);
+    }).then(data => {
+      return data.sort((a,b) => a.id <= b.id)
     });
   }
 
