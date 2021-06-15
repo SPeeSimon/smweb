@@ -30,7 +30,7 @@
         <div class="row g-3 align-items-center">
           <div class="col-12">
             <select class="form-select" aria-label="Select a Modelgroup" v-model="searchoptions.modelgroup">
-              <option value="" selected>Modelgroup to filter</option>
+              <option value="" selected>Select a modelgroup to filter</option>
               <option v-for="mg in modelgroups" :key="mg.id" :value="mg.id">
                 {{ mg.name }}
               </option>
@@ -41,12 +41,12 @@
       <div class="col-12 col-md-4">
         <!-- location -->
         <div class="row g-3 align-items-center">
-          <div class="col-3">
-            <label for="country" class="col-form-label">Country</label>
-          </div>
           <div class="col-auto">
             <select class="form-select" aria-label="Default select example">
-              <option selected>Country to filter</option>
+              <option value="" selected>Select a country to filter</option>
+              <option v-for="c in countries" :key="c.code" :value="c.code">
+                {{ c.name }}
+              </option>
             </select>
           </div>
         </div>
