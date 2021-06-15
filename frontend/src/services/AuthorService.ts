@@ -11,7 +11,7 @@ export class AuthorService {
   }
 
   getAll(start = 0, length = 20): Promise<AuthorInfo[]> {
-    const url = urlWithOptionalLimitOffset(`${this.baseUrl}/author/list/`, length, start); // /authors/list/:limit/:offset?
+    const url = urlWithOptionalLimitOffset(`${this.baseUrl}/author/list`, length, start); // /authors/list/:limit/:offset?
     return fetch(url).then(jsonResponseOrError);
   }
 }
