@@ -81,6 +81,15 @@ export class StatsService {
         return stats.map((item) => Object.assign(item, { date: new Date(item.date) }) as HistoryItem);
       });
   }
+
+  public getModelsByCountry(): Promise<ModelsByCountryStat[]> {
+    return fetch(`${this.baseUrl}/stats/models/bycountry`)
+      .then(jsonResponseOrError)
+      .then((data) => {
+        return data.modelsbycountry || [];
+      });
+  }
+
 }
 
 export interface ScenemodelStats {
@@ -132,6 +141,12 @@ export interface HistoryItem {
 //     'count': Number(row.count),
 //   }
 // ] }
+export interface ModelsByCountryStat {
+  name : string;
+  id : string | number;
+  density: number;
+  count: number;
+}
 
 // /stats/models/bycountry
 // { modelsbycountry: [

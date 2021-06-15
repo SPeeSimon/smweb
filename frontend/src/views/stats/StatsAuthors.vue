@@ -29,8 +29,6 @@
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
-import { AuthorService } from "../../services/AuthorService";
-import { ModelgroupService } from "../../services/ModelgroupService";
 import { StatsService } from "../../services/StatsService";
 
 @Component({
