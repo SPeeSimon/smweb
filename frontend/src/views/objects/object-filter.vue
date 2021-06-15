@@ -30,7 +30,7 @@
         <div class="row g-3 align-items-center">
           <div class="col-12">
             <select class="form-select" aria-label="Select a Modelgroup" v-model="searchoptions.modelgroup">
-              <option selected>Modelgroup to filter</option>
+              <option value="" selected>Modelgroup to filter</option>
               <option v-for="mg in modelgroups" :key="mg.id" :value="mg.id">
                 {{ mg.name }}
               </option>
@@ -108,14 +108,14 @@
 
 <script lang="ts">
 import { Component, Emit, Inject, Model, Vue } from "vue-property-decorator";
-import { ModelgroupService } from "../../services/ModelgroupService";
-import { ObjectService } from "../../services/ObjectService";
+import { ModelGroup, ModelgroupService } from "../../services/ModelgroupService";
+import { FGCountry, ObjectService } from "../../services/ObjectService";
 
 @Component({})
 export default class extends Vue {
   @Model("doFilter", { required: true, default: {} }) private searchoptions;
-  private modelgroups = [];
-  private countries = [];
+  private modelgroups : ModelGroup[] = [];
+  private countries: FGCountry[] = [];
 
   @Inject("ObjectService")
   private objectService!: ObjectService;

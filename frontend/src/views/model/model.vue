@@ -56,7 +56,7 @@
               </div>
               <div>
                 <hr />
-                <p class="text-start"><span>The last update of this model was </span><span v-text="model.modified"></span></p>
+                <p class="text-start"><span>The last update of this model was </span><span v-text="lastModified"></span></p>
               </div>
               <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <button class="btn btn-outline-secondary">Download</button>
@@ -108,7 +108,7 @@
               <tbody class="table-striped">
                 <tr v-for="(record, index) in model.content" :key="index">
                   <td v-text="record.filename"></td>
-                  <td class="text-right"><span v-text="record.filesize"></span><span> Bytes</span></td>
+                  <td class="text-right"><display-filesize :size="record.filesize"></display-filesize></td>
                 </tr>
               </tbody>
             </table>
@@ -171,13 +171,16 @@
 
 <script lang="ts">
 import { Component, Inject, Vue, Watch } from "vue-property-decorator";
+import DisplayFilesize from "../../components/display-filesize.vue";
 import ReloadButton from "../../components/ReloadButton.vue";
 import { FGModel, ModelService } from "../../services/ModelService";
 import { ModelPosition, ScenemodelsService } from "../../services/ScenemodelsService";
+import { DateTime } from 'luxon';
 
 @Component({
   components: {
     ReloadButton,
+    DisplayFilesize,
   },
 })
 export default class extends Vue {
@@ -190,7 +193,7 @@ export default class extends Vue {
   @Inject('ScenemodelsService')
   private scenemodelService!: ScenemodelsService;
   @Inject('ModelService')
-  private modelService: ModelService;
+  private modelService!: ModelService;
 
   public created() {
     // watch the params of the route to fetch the data again
@@ -228,6 +231,15 @@ export default class extends Vue {
     if (this.model) {
       return this.modelService.getThumbUrl(this.model.id);
     }
+  }
+
+  get lastModified() {
+    const modifiedDateTime = DateTime.fromISO(this.model.modified);
+    const modifiedAgo = modifiedDateTime.diffNow('days')
+    if (modifiedAgo.days > -7 && modifiedAgo.days < 7) {
+      return modifiedDateTime.toRelative({locale: 'en'}) // updated in the last week, show nice
+    }
+    return modifiedDateTime.toFormat("ff"); // updated long ago, show exact
   }
 
   private fallbackToDefaultThumbImageUrl(event: Event) {

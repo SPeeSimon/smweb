@@ -8,7 +8,7 @@
           This is the central point for maintaining FlightGear scenery models and their positions. Everybody is welcome to contribute.
         </p>
         <p class="lead mb-4 fs-6">
-          All data on this site (and the site's source code itself) is available under the GNU General Public License 2.
+          All data on this site is available under the GNU General Public License 2.
         </p>
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
           <a class="btn btn-outline-primary btn-lg px-4" href="http://www.flightgear.org" target="_blank">Go to the FlightGear website</a>

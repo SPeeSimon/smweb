@@ -6,16 +6,16 @@
 </template>
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
-import { NewsService } from "../../services/NewsService";
+import { NewsBlogItem, NewsService } from "../../services/NewsService";
 import NewsItem from "./NewsItem.vue";
 
 @Component({
   components: { NewsItem },
 })
 export default class extends Vue {
-  private news = [];
+  private news: NewsBlogItem[] = [];
   @Inject("NewsService")
-  private newsService: NewsService;
+  private newsService!: NewsService;
 
   public created() {
     this.newsService.getAll().then((news) => {
