@@ -1,25 +1,18 @@
+import { jsonResponseOrError } from "./ServiceUtil";
+
 export class ModelgroupService {
   constructor(private baseUrl: string) {}
 
   public getAll(): Promise<ModelGroup[]> {
-    const url = `${this.baseUrl}/modelgroups/`;
-    return fetch(url).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    }).then(data => {
-      return data.sort((a,b) => a.id <= b.id)
-    });
+    return fetch(`${this.baseUrl}/modelgroups/`)
+      .then(jsonResponseOrError)
+      .then((data) => {
+        return data.sort((a, b) => a.id <= b.id);
+      });
   }
 
   public getById(id: number): Promise<ModelGroup> {
-    return fetch(`${this.baseUrl}/modelgroups/$id`).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    });
+    return fetch(`${this.baseUrl}/modelgroups/$id`).then(jsonResponseOrError);
   }
 }
 

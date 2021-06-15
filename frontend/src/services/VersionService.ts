@@ -1,12 +1,9 @@
+import { jsonResponseOrError } from "./ServiceUtil";
+
 export class VersionService {
   getClientVersion(): Promise<ClientVersion> {
     return fetch("/version.json")
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+      .then(jsonResponseOrError)
       .then((json) => json as ClientVersion);
   }
 }

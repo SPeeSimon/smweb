@@ -1,42 +1,28 @@
 import { Author } from "./AuthorService";
+import { jsonResponseOrError, urlWithOptionalLimitOffset } from "./ServiceUtil";
 
 export class StatsService {
   constructor(private baseUrl: string) {}
 
   public getTopAuthors(): Promise<Author[]> {
-    return fetch(`${this.baseUrl}/stats/models/byauthor/3/`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
-      .then((data) => {
-        return data.modelsbyauthor || [];
-      });
+    return this.getAuthorStats(3);
   }
 
   public getTopAuthors90(): Promise<Author[]> {
-    return fetch(`${this.baseUrl}/stats/models/byauthor/3/0/1`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
-      .then((data) => {
-        return data.modelsbyauthor || [];
-      });
+    return this.getAuthorStats(3, 0, 90);
   }
 
   public getTop10Authors(): Promise<Author[]> {
-    return fetch(`${this.baseUrl}/stats/models/byauthor/10/`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+    return this.getAuthorStats(10);
+  }
+
+  public getAuthorStats(limit: number, offset?: number, days?: number): Promise<Author[]> {
+    if (offset === undefined && days) {
+      offset = 0;
+    }
+    const url = urlWithOptionalLimitOffset(`${this.baseUrl}/stats/models/byauthor`, limit, offset, days); // /stats/models/byauthor/:limit?/:offset?/:days?
+    return fetch(url)
+    .then(jsonResponseOrError)
       .then((data) => {
         return data.modelsbyauthor || [];
       });
@@ -44,35 +30,27 @@ export class StatsService {
 
   public getTotals(): Promise<ScenemodelStats> {
     return fetch(`${this.baseUrl}/stats/`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+       .then(jsonResponseOrError)
       .then((data) => {
         const stats = (data || { stats: {} }).stats || {};
         return Object.assign(
           {
-            models: 0,
-            objects: 0,
             authors: 0,
-            pending: 0,
             elev: 0,
+            models: 0,
+            navaids: 0,
+            objects: 0,
+            pending: 0,
           },
           stats
         );
       });
   }
 
+
   public getAllStats(): Promise<HistoryItem[]> {
     return fetch(`${this.baseUrl}/stats/all`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+      .then(jsonResponseOrError)
       .then((data) => {
         const stats = (data || { statistics: {} }).statistics || [];
         return Array.from(stats);
@@ -81,6 +59,18 @@ export class StatsService {
         return stats.map((item) => Object.assign(item, { date: new Date(item.date) }) as HistoryItem);
       });
   }
+// /stats/all
+// { statistics: [
+//   {
+//     'date' : row.st_date,
+//     'objects': row.st_objects,
+//     'models':  row.st_models,
+//     'authors': row.st_authors,
+//     'signs': row.st_signs,
+//     'navaids': row.st_navaids,
+//   }
+// ] }
+
 
   public getModelsByCountry(): Promise<ModelsByCountryStat[]> {
     return fetch(`${this.baseUrl}/stats/models/bycountry`)
@@ -109,38 +99,6 @@ export interface HistoryItem {
   signs: number;
 }
 
-// /stats/
-// {
-//   'stats': {
-//     'objects': row.objects || 0,
-//     'models':  row.models || 0,
-//     'authors': row.authors || 0,
-//     'navaids': row.navaids || 0,
-//     'pending': row.pends || 0,
-//     'elev': row.gndelevs || 0,
-//   }
-// }
-
-// /stats/all
-// { statistics: [
-//   {
-//     'date' : row.st_date,
-//     'objects': row.st_objects,
-//     'models':  row.st_models,
-//     'authors': row.st_authors,
-//     'signs': row.st_signs,
-//     'navaids': row.st_navaids,
-//   }
-// ] }
-
-// /stats/models/byauthor/:limit?/:offset?/:days?
-// { modelsbyauthor: [
-//   {
-//     'author' : row.au_name.trim(),
-//     'author_id' : Number(row.au_id),
-//     'count': Number(row.count),
-//   }
-// ] }
 export interface ModelsByCountryStat {
   name : string;
   id : string | number;

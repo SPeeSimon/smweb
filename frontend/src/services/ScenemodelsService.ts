@@ -1,17 +1,13 @@
 import { FeatureCollection, Point } from "geojson";
 import { GeoJsonUtils } from "./GeoJsonUtils";
+import { jsonResponseOrError } from "./ServiceUtil";
 
 export class ScenemodelsService {
   constructor(private baseUrl: string) {}
 
   public getModelById(id: number | string): Promise<FGModel> {
     return fetch(`${this.baseUrl}/model/${id}`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+      .then(jsonResponseOrError)
       .then(this.convertToModelContent);
 
     // $.getJSON( this.params.baseUrl + "scenemodels/model/" + this.id(), function( data ) {
@@ -42,12 +38,7 @@ export class ScenemodelsService {
 
   public getPositionsById(id: number | string): Promise<ModelPosition[]> {
     return fetch(`${this.baseUrl}/model/${id}/positions`)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+      .then(jsonResponseOrError)
       .then((data) => {
         // geojson FeatureCollection
         if (GeoJsonUtils.isGeoPoint(data)) {

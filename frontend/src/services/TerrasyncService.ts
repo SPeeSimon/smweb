@@ -1,14 +1,11 @@
+import { jsonResponseOrError } from "./ServiceUtil";
+
 export class TerrasyncService {
   constructor(private baseUrl: string) {}
 
   getStatus(): Promise<TerrasyncRoot[]> {
     const url = `${this.baseUrl}/status`;
-    return fetch(url).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    });
+    return fetch(url).then(jsonResponseOrError);
   }
 }
 

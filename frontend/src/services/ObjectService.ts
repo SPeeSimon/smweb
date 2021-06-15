@@ -1,5 +1,6 @@
 import { Feature, FeatureCollection, Point } from "geojson";
 import { GeoJsonUtils } from "./GeoJsonUtils";
+import urlWithOptionalLimitOffset, { jsonResponseOrError } from "./ServiceUtil";
 
 export class ObjectService {
   constructor(private baseUrl: string) {}
@@ -22,22 +23,11 @@ export class ObjectService {
   }
 
   public getAll(start = 0, length = 20): Promise<FGObject[]> {
-    let url = `${this.baseUrl}/objects/list/`;
-    if (length) url += Number(length) + "/";
-    if (start) url += Number(start);
+    const url = urlWithOptionalLimitOffset(`${this.baseUrl}/objects/list/`, length, start); // /objects/:limit/:offset?
     console.log("fetching", url);
 
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    //     data : data ? JSON.stringify(data) : null,
-
     return fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+      .then(jsonResponseOrError)
       .then((data) => {
         // geojson FeatureCollection
         if (GeoJsonUtils.isGeoPoint(data)) {
@@ -45,7 +35,6 @@ export class ObjectService {
         }
         return [];
       });
-    // /objects/:limit/:offset?
     // /objects/ ?e=11&w=11&n=11&s=11
   }
 
@@ -76,15 +65,11 @@ export class ObjectService {
     Object.keys(options)
       .filter((key) => supportedSearchParams.indexOf(key) != -1)
       .filter(key => options[key] != null)
+      .filter(key => options[key] !== '')
       .forEach((key) => url.searchParams.append(key, options[key]));
 
     return fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      })
+      .then(jsonResponseOrError)
       .then((data) => {
         // geojson FeatureCollection
         if (GeoJsonUtils.isGeoPoint(data)) {
@@ -96,22 +81,12 @@ export class ObjectService {
 
   public getById(id: string | number): Promise<any> {
     const url = `${this.baseUrl}/objects/${id}`;
-    return fetch(url).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    });
+    return fetch(url).then(jsonResponseOrError);
   }
 
-  public getCountries(): Promise<Country> {
+  public getCountries(): Promise<FGCountry[]> {
     const url = `${this.baseUrl}/objects/countries`;
-    return fetch(url).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    });
+    return fetch(url).then(jsonResponseOrError);
   }
 
   public getThumbUrl(id: string | number): string {
@@ -120,7 +95,7 @@ export class ObjectService {
   }
 }
 
-export interface FGCountr {
+export interface FGCountry {
   code: string;
   name: string;
 }

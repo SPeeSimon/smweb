@@ -1,29 +1,18 @@
+import { jsonResponseOrError, urlWithOptionalLimitOffset } from "./ServiceUtil";
+
 export class AuthorService {
   constructor(private baseUrl: string) {
-    console.log("AuthorService", baseUrl);
+    //
   }
 
   get(id: number | string): Promise<AuthorInfo> {
     return fetch(`${this.baseUrl}/author/${id}`) // /author/:id
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        }
-        throw new Error(response.statusText);
-      });
+      .then(jsonResponseOrError);
   }
 
   getAll(start = 0, length = 20): Promise<AuthorInfo[]> {
-    let url = this.baseUrl + "/author/list/";
-    if (length) url += Number(length) + "/";
-    if (start) url += Number(start);
-    // /authors/list/:limit/:offset?
-    return fetch(url).then((response) => {
-      if (response.ok) {
-        return response.json();
-      }
-      throw new Error(response.statusText);
-    });
+    const url = urlWithOptionalLimitOffset(`${this.baseUrl}/author/list/`, length, start); // /authors/list/:limit/:offset?
+    return fetch(url).then(jsonResponseOrError);
   }
 }
 

@@ -1,7 +1,6 @@
-import { Feature, FeatureCollection, Point } from "geojson";
+import { FeatureCollection, Point } from "geojson";
 
 export class GeoJsonUtils {
-
   public static isFeatureCollection(data: any): data is FeatureCollection {
     return data && data.type === "FeatureCollection" && Array.isArray(data.features);
   }
@@ -19,5 +18,4 @@ export class GeoJsonUtils {
     }
     return false;
   }
-
 }
