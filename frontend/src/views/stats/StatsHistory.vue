@@ -10,11 +10,12 @@
 <script lang="ts">
 import { Component, Inject, Vue } from "vue-property-decorator";
 import ReloadButton from "../../components/ReloadButton.vue";
-import { HistoryItem, StatsService } from "../../services/StatsService";
+import { HistoryItem, StatsService, Tableau20 } from "../../services/StatsService";
 import { Chart, ChartData, ChartItem, Legend, LinearScale, LineController, LineElement, PointElement, registerables, TimeSeriesScale, Title, Tooltip } from "chart.js";
 import "chartjs-adapter-luxon";
 
 Chart.register(LineController, LinearScale, LineElement, Title, Legend, TimeSeriesScale, Tooltip, PointElement);
+
 
 @Component({
   components: {
@@ -112,11 +113,13 @@ export default class extends Vue {
     const timeLabels: Date[] = [];
     const modelsInTime: number[] = [];
     const objectInTime: number[] = [];
+    const signsInTime: number[] = [];
 
     data.forEach((entry) => {
       timeLabels.push(entry.date);
       modelsInTime.push(entry.models);
       objectInTime.push(entry.objects);
+      signsInTime.push(entry.signs);
     });
 
     return {
@@ -126,8 +129,8 @@ export default class extends Vue {
           type: "line",
           label: "Models",
           data: modelsInTime,
-          borderColor: "red",
-          backgroundColor: "red",
+          borderColor: Tableau20[0],
+          backgroundColor: Tableau20[0],
           fill: false,
           yAxisID: "y",
         },
@@ -135,8 +138,17 @@ export default class extends Vue {
           type: "line",
           label: "Objects",
           data: objectInTime,
-          borderColor: "blue",
-          backgroundColor: "blue",
+          borderColor: Tableau20[1],
+          backgroundColor: Tableau20[1],
+          fill: false,
+          yAxisID: "y1",
+        },
+        {
+          type: "line",
+          label: "Signs",
+          data: signsInTime,
+          borderColor: Tableau20[2],
+          backgroundColor: Tableau20[2],
           fill: false,
           yAxisID: "y1",
         },
