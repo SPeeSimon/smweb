@@ -2,6 +2,7 @@
   <div class="card card-default" :class="{ loading: historyLoading }">
     <div class="card-header"><span>History</span><reload-button @reload="reload" /></div>
     <div class="card-body">
+      <div class="alert alert-warning" role="alert" v-if="datasize == 0">No data available.</div>
       <canvas ref="statsHst" id="stats-hst" width="200" height="200"></canvas>
     </div>
   </div>
@@ -26,6 +27,7 @@ export default class extends Vue {
   protected historyLoading = false;
   private myChart: Chart | undefined = undefined;
   private chartData: ChartData | undefined;
+  private datasize = 0;
 
   @Inject('StatsService')
   private statsService!: StatsService;
@@ -121,6 +123,7 @@ export default class extends Vue {
       objectInTime.push(entry.objects);
       signsInTime.push(entry.signs);
     });
+    this.datasize = data.length;
 
     return {
       labels: timeLabels,

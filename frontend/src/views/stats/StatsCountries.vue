@@ -2,6 +2,7 @@
   <div class="card card-default" :class="{ loading: countryLoading }">
     <div class="card-header"><span>Most populated Countries</span><reload-button @reload="reload" /></div>
     <div class="card-body">
+      <div class="alert alert-warning" role="alert" v-if="datasize == 0">No data available.</div>
       <canvas ref="statsMpc" id="stats-model-per-country" width="200" height="200"></canvas>
     </div>
   </div>
@@ -24,8 +25,9 @@ export default class extends Vue {
   private countryLoading = false;
   private myChart: Chart | undefined = undefined;
   private chartData: ChartData | undefined;
+  private datasize = 0;
 
-  @Inject('StatsService')
+  @Inject("StatsService")
   private statsService!: StatsService;
 
   created() {
@@ -55,13 +57,13 @@ export default class extends Vue {
           tooltip: {
             callbacks: {
               title: (models, tooltipItems): string | string[] => {
-                return models.map((m: any) => m.label).find((m: string) => m !== "")
+                return models.map((m: any) => m.label).find((m: string) => m !== "");
               },
-              label: (model, tooltipItem) : string => {
+              label: (model, tooltipItem): string => {
                 return `${model.dataset.label}: ${model.formattedValue}`;
-              }
+              },
             },
-          }
+          },
         },
         interaction: {
           mode: "index",
@@ -88,7 +90,8 @@ export default class extends Vue {
       this.myChart = undefined;
     }
 
-    this.statsService.getModelsByCountry()
+    this.statsService
+      .getModelsByCountry()
       .then((data) => this.convertToChartdata(data))
       .then((data) => {
         this.chartData = data;
@@ -109,6 +112,7 @@ export default class extends Vue {
       modelsPerCountry.push(entry.count);
       densityPerCountry.push(entry.density);
     });
+    this.datasize = data.length;
 
     return {
       labels: countryLabels,
@@ -128,7 +132,6 @@ export default class extends Vue {
   }
 }
 </script>
-
 
 <style>
 #hst-tooltip {

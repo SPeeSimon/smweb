@@ -2,6 +2,7 @@
   <div class="card card-default" :class="{ loading: authorsLoading }">
     <div class="card-header"><span>Most active Authors</span><reload-button @reload="reloadAuthors" /></div>
     <div class="card-body">
+      <div class="alert alert-warning" role="alert" v-if="datasize == 0">No data available.</div>
       <canvas ref="statsMba" id="stats-mba" width="200" height="200"></canvas>
     </div>
   </div>
@@ -25,6 +26,7 @@ export default class extends Vue {
   private authorsLoading = false;
   private myChart: Chart | undefined = undefined;
   private chartData: ChartData | undefined;
+  private datasize = 0;
 
   @Inject('StatsService')
   private statsService!: StatsService;
@@ -87,6 +89,7 @@ export default class extends Vue {
       newLabels.push(entry.author);
       newData.push(entry.count);
     });
+    this.datasize = data.length;
 
     return {
       labels: newLabels,
