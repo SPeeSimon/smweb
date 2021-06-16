@@ -38,6 +38,11 @@ export class ObjectService {
     // /objects/ ?e=11&w=11&n=11&s=11
   }
 
+  public getGroups(): Promise<ObjectGroup[]> {
+    return fetch(`${this.baseUrl}/objects/groups`)
+      .then(jsonResponseOrError);
+  }
+
   public search(options, start = 0, length = 20): Promise<FGObject[]> {
     const url = new URL(`${this.baseUrl}/objects/search/`);
     url.searchParams.append("offset", start);
@@ -49,6 +54,7 @@ export class ObjectService {
       "description",
       "elevation",
       "elevoffset",
+      "groupid",
       "heading",
       "lat",
       "lon",
@@ -97,6 +103,11 @@ export class ObjectService {
 
 export interface FGCountry {
   code: string;
+  name: string;
+}
+
+export interface ObjectGroup {
+  id: number;
   name: string;
 }
 

@@ -29,6 +29,16 @@
         </div>
         <div class="row g-3 align-items-center">
           <div class="col-12">
+            <select class="form-select" aria-label="Select a group" v-model="searchoptions.groupid">
+              <option value="" selected>Select a group to filter</option>
+              <option v-for="og in objectgroups" :key="og.id" :value="og.id">
+                {{ og.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="row g-3 align-items-center">
+          <div class="col-12">
             <select class="form-select" aria-label="Select a Modelgroup" v-model="searchoptions.modelgroup">
               <option value="" selected>Select a modelgroup to filter</option>
               <option v-for="mg in modelgroups" :key="mg.id" :value="mg.id">
@@ -109,12 +119,13 @@
 <script lang="ts">
 import { Component, Emit, Inject, Model, Vue } from "vue-property-decorator";
 import { ModelGroup, ModelgroupService } from "../../services/ModelgroupService";
-import { FGCountry, ObjectService } from "../../services/ObjectService";
+import { FGCountry, ObjectGroup, ObjectService } from "../../services/ObjectService";
 
 @Component({})
 export default class extends Vue {
   @Model("doFilter", { required: true, default: {} }) private searchoptions;
   private modelgroups : ModelGroup[] = [];
+  private objectgroups : ObjectGroup[] = [];
   private countries: FGCountry[] = [];
 
   @Inject("ObjectService")
@@ -128,6 +139,9 @@ export default class extends Vue {
     }
     if (this.countries.length == 0) {
       this.objectService.getCountries().then((country) => (this.countries = country));
+    }
+    if (this.objectgroups.length == 0) {
+      this.objectService.getGroups().then((groups) => (this.objectgroups = groups));
     }
   }
 
