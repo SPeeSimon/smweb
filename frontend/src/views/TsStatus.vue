@@ -49,7 +49,7 @@ export default class extends Vue {
   private dataItems: string[] = [];
   private error = null;
 
-  @Inject()
+  @Inject("TerrasyncService")
   private terrasyncService!: TerrasyncService;
 
   private created() {

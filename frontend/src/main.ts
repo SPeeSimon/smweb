@@ -23,7 +23,7 @@ const ServiceProviders = {
   ObjectService: new ObjectService(process.env.VUE_APP_API_LOCATION),
   ScenemodelsService: new ScenemodelsService(process.env.VUE_APP_API_LOCATION),
   StatsService: new StatsService(process.env.VUE_APP_API_LOCATION),
-  TerrasyncService: new TerrasyncService(process.env.VUE_APP_API_LOCATION),
+  TerrasyncService: new TerrasyncService(process.env.VUE_APP_API_LOCATION + '/..'),
   VersionService: new VersionService(),
 };
 

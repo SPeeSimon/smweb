@@ -4,8 +4,8 @@ export class TerrasyncService {
   constructor(private baseUrl: string) {}
 
   getStatus(): Promise<TerrasyncRoot[]> {
-    const url = `${this.baseUrl}/status`;
-    return fetch(url).then(jsonResponseOrError);
+    const url = `${this.baseUrl}/ts/status/`;
+    return fetch(url).then(jsonResponseOrError).then(json => Array.from(json.entries));
   }
 }
 
