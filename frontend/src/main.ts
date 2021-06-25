@@ -1,7 +1,6 @@
 import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import { CRUDRestService } from "./services/CRUDRestService";
 import { AuthorService } from "./services/AuthorService";
 import { ModelgroupService } from "./services/ModelgroupService";
 import { ModelService } from "./services/ModelService";
@@ -16,7 +15,6 @@ Vue.config.productionTip = false;
 
 const ServiceProviders = {
   AuthorService: new AuthorService(process.env.VUE_APP_API_LOCATION),
-  CRUDRestService: new CRUDRestService(process.env.VUE_APP_API_LOCATION),
   ModelgroupService: new ModelgroupService(process.env.VUE_APP_API_LOCATION),
   ModelService: new ModelService(process.env.VUE_APP_API_LOCATION),
   NewsService: new NewsService(process.env.VUE_APP_API_LOCATION+ '/..'),
